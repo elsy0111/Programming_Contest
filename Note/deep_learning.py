@@ -28,6 +28,6 @@ t = df["terget"].values
 x = df.drop(labels=["terget"],axis=1).values
 
 print("t",t)
-print("x",x
+print("x",x)
 
  
