@@ -10,20 +10,25 @@ Accuracy = 100 # 粗さ。何フレーム毎にデータをとるか
 
 # Load Audio File
 wav_file_name = "./audio/asano_short.wav"
-PCM, data = scipy.io.wavfile.read(wav_file_name)
+wav_file = wave.open(wav_file_name,"r")
 
-# data = 16bitの音量 、1Frameあたり１つのデータ
-#  ( = len(data) = Total_Frame)  
-# 16bitの音声ファイルのデータは-32768から32767の2^16(65,536)段階を
-# 0~32767に変換
-data = abs(data)
-# PCM( = Sampling = 48000)
-T_Frame = data.shape[0] # Total_Frame( = Sampling * Total_Time)
-T_Time = T_Frame/PCM    # Total_Time( = Total_Frame/PCM)
+PCM = wav_file.getframerate()   # PCM = Sampling = 48000
+T_Frame = wav_file.getnframes() # Total_Frame ( = Sampling * Total_Time)
+T_Time = T_Frame/PCM            # Total_Time ( = Total_Frame/PCM)
 
 # 窓関数の定義
 wav_file = wave.open(wav_file_name,"r")
-amp  = (2**8) ** wav_file.getsampwidth() / 2
 data = wav_file.readframes(T_Frame)     # バイナリ読み込み
 data = np.frombuffer(data,'int16')      # intに変換
-data = data / amp                       # 振幅正規化
+# data = フレーム毎の振幅の大きさ
+# 16bitの音声ファイルのデータを-32768 から 32767にプロット
+
+print("PCM sampling :",PCM,"Hz")
+print("Total Frame :",T_Frame,"Frames")
+print("Total Time:Total Frame/Sampling")
+print(" = ",T_Time,"sec")
+
+time = np.arange(0, T_Time, 1/PCM)
+
+plt.plot(time, data)
+plt.show()

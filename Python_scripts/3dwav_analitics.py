@@ -23,10 +23,8 @@ T_Time = T_Frame/PCM    # Total_Time( = Total_Frame/PCM)
 
 # 窓関数の定義
 wav_file = wave.open(wav_file_name,"r")
-amp  = (2**8) ** wav_file.getsampwidth() / 2
 data = wav_file.readframes(T_Frame)     # バイナリ読み込み
 data = np.frombuffer(data,'int16')      # intに変換
-data = data / amp                       # 振幅正規化
 
 print("PCM sampling :",PCM,"Hz")
 print("Total Frame :",T_Frame,"Frames")
