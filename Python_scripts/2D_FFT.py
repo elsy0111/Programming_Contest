@@ -28,7 +28,19 @@ print("Total Frame :",T_Frame,"Frames")
 print("Total Time:Total Frame/Sampling")
 print(" = ",T_Time,"sec")
 
-time = np.arange(0, T_Time, 1/PCM)
+size = 1024
 
-plt.plot(time, data)
+hammingWindow = np.hamming(size)    # ハミング窓
+d = 1 / PCM
+freqList = np.fft.fftfreq(size, d)
+
+windowedData = hammingWindow * data[:size]  # 切り出した波形データ（窓関数あり）
+data = np.fft.fft(windowedData)
+
+time = np.arange(0, T_Time, Accuracy/PCM)
+
+plt.xlabel("Frequency[Hz]")
+plt.ylabel("Loudness(bit)")
+
+plt.plot(abs(freqList),abs(data))
 plt.show()
