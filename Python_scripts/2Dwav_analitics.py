@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
  
  
 # Load Audio File
-wav_filename = "./audio/asano.wav"
+wav_filename = "./audio/Sample_Audio/asano.wav"
 rate, data = scipy.io.wavfile.read(wav_filename)
 
 PCM = rate

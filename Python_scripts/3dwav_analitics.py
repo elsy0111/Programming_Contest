@@ -9,7 +9,7 @@ import wave
 Accuracy = 100 # 粗さ 何フレーム毎にデータをとるか
 
 # Load Audio File
-wav_file_name = "./audio/asano_short.wav"
+wav_file_name = "./audio/Sample_Audio/asano_short.wav"
 wav_file = wave.open(wav_file_name,"r")
 
 PCM = wav_file.getframerate()   # PCM = Sampling = 48000
