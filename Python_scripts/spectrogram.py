@@ -10,7 +10,7 @@ fft_size = 2048                  # フレーム長
 hop_length = int(fft_size / 16)  # フレームシフト長 
 
 # Load Audio File
-wav_file_name = "audio/Sample_Audio/asano_short20-25.wav"
+wav_file_name = "audio/Sample_Audio/asano_short30-35.wav"
 wav_file = wave.open(wav_file_name,"r")
 
 PCM, data = scipy.io.wavfile.read(wav_file_name)    # PCM = Sampling = 48000
