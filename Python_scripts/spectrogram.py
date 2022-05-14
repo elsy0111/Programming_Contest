@@ -24,13 +24,6 @@ print("Total Frame :",T_Frame,"Frames")
 print("Total Time:Total Frame/Sampling",end = "")
 print(" = ",T_Time,"sec")
 
-
-# np.arange(初項 = 初めの時間[sec], 
-#           等差数列の終点　= 終わりの時間[sec], 
-#           等差[sec])
-time = np.arange(0, T_Time, 1/PCM)
-
-
 #16bitの音声ファイルのデータを-1から1に正規化
 data = data / 32768
 
@@ -46,5 +39,5 @@ librosa.display.specshow(
     x_axis="time", y_axis="hz", cmap='magma')
 plt.colorbar(format='%+2.0f dB')
 
-plt.savefig("images/save.png", dpi = 600)  # プロットしたグラフをファイルsave.pngに保存する
+plt.savefig("images/Spectrogram.png", dpi = 600)  # プロットしたグラフをファイルsave.pngに保存する
 plt.show()
