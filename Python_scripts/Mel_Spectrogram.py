@@ -34,16 +34,14 @@ time = np.arange(0, T_Time, 1/PCM)
 #16bitの音声ファイルのデータを-1から1に正規化
 data = data / 32768
 
-
-# 短時間フーリエ変換実行
-amplitude = np.abs(librosa.core.stft(data, n_fft=fft_size, hop_length=hop_length))
-# 振幅をデシベル単位に変換
-log_power = librosa.core.amplitude_to_db(amplitude)
+window = "hann"
+n_mels = 128
+mel_power = librosa.feature.melspectrogram(data, sr=PCM, n_fft=fft_size, hop_length=hop_length, win_length=fft_size,
+                                            window=window, center=True, n_mels=n_mels)
+mel_power_in_db = librosa.power_to_db(mel_power, ref=np.max)
 
 # Data Plot
-librosa.display.specshow(
-    log_power, sr = PCM, hop_length = hop_length,
-    x_axis="time", y_axis="hz", cmap='magma')
+librosa.display.specshow(mel_power_in_db, x_axis='time', y_axis='mel', sr=PCM)
 plt.colorbar(format='%+2.0f dB')
 
 plt.savefig("images/save.png", dpi = 600)  # プロットしたグラフをファイルsave.pngに保存する
