@@ -72,3 +72,4 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 ```
+これ以降あまり書くつもりはない...
