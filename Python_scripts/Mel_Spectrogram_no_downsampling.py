@@ -7,7 +7,7 @@ import wave
 
 
 fft_size = 2048                  # フレーム長            
-hop_length = int(fft_size / 16)  # フレームシフト長 
+hop_length = int(fft_size / 4)  # フレームシフト長 
 
 # Load Audio File
 wav_file_name = "audio/Sample_Audio/asano_short30-35.wav"
@@ -16,6 +16,7 @@ wav_file = wave.open(wav_file_name,"r")
 PCM, data = scipy.io.wavfile.read(wav_file_name)    # PCM = Sampling = 48000
 T_Frame = wav_file.getnframes()                     # Total_Frame ( = Sampling * Total_Time)
 T_Time = T_Frame/PCM                                # Total_Time ( = Total_Frame/PCM)
+
 
 # Print Meta Data
 print("PCM sampling :",PCM,"Hz")
@@ -26,16 +27,16 @@ print(" = ",T_Time,"sec")
 #16bitの音声ファイルのデータを-1から1に正規化
 data = data / 32768
 
-# 短時間フーリエ変換実行
-amplitude = np.abs(librosa.core.stft(data, n_fft=fft_size, hop_length=hop_length))
-# 振幅をデシベル単位に変換
-log_power = librosa.core.amplitude_to_db(amplitude)
+window = "hann"
+n_mels = 512
+mel_power = librosa.feature.melspectrogram(
+    y = data, n_fft = fft_size, hop_length = hop_length, win_length = fft_size,
+    window = window, n_mels = n_mels)
+mel_power_in_db = librosa.power_to_db(mel_power, ref=np.max)
 
 # Data Plot
-librosa.display.specshow(
-    log_power, sr = PCM, hop_length = hop_length,
-    x_axis="time", y_axis="hz", cmap='gray')
+librosa.display.specshow(mel_power_in_db,x_axis='time', y_axis='mel', sr=PCM, cmap = "gray")
 # plt.colorbar(format='%+2.0f dB')
 
-plt.savefig("images/Spectrogram.png", dpi = 600)  # プロットしたグラフをファイルsave.pngに保存する
+plt.savefig("images/Mel_Spectrogram_nd.png", dpi = 600)  # プロットしたグラフをファイルsave.pngに保存する
 plt.show()
