@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import wave
 
 
-fft_size = 2048                  # フレーム長            
+fft_size = 2048                 # フレーム長            
 hop_length = int(fft_size / 4)  # フレームシフト長 
 
 # Load Audio File
