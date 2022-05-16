@@ -4,7 +4,6 @@ import librosa.display
 import matplotlib.pyplot as plt
 import cv2
 
-
 fig, ax = plt.subplots()
 
 # Load Audio File
