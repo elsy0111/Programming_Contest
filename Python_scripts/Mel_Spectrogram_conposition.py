@@ -29,7 +29,7 @@ S = librosa.feature.melspectrogram(
 S_dB = librosa.power_to_db(S, ref = np.max)
 
 # Data Plot
-img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
+img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel', 
                             sr = PCM, fmax = F_max, ax = ax, cmap = "gray")
 
 # Save Image
