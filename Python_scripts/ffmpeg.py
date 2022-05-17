@@ -13,4 +13,8 @@ script = "ffmpeg "+str_list+" -filter_complex amix="+str(n)+" -y audio/Conpositi
 
 subprocess.run(script,shell = True)
 
+louder_script = "ffmpeg -i audio/Conposition_Audio/out.wav -filter:a volume=4 audio/Conposition_Audio/out_loud.wav"
+
+subprocess.run(louder_script,shell = True)
+
 print(script)
