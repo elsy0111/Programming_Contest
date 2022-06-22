@@ -37,5 +37,5 @@ librosa.display.specshow(
     x_axis="time", y_axis="hz", cmap='gray')
 # plt.colorbar(format='%+2.0f dB')
 
-plt.savefig("images/Spectrogram.png", dpi = 600)  # プロットしたグラフをファイルsave.pngに保存する
+plt.savefig("images/Spectrogram.png", dpi = 600)  #プロットしたグラフをファイルsave.pngに保存する
 plt.show()

@@ -1,7 +1,7 @@
 from random import randint
 
-print()
-print('--------- start program ---------')
+# print()
+# print('--------- start program ---------')
 
 N = randint(3,20)
 print("N = ",N)
@@ -26,8 +26,8 @@ s_list = [0] * 44
 for i in t:
 	s_list[i-1] = 1
 
-print("set t in s_list :\n",s_list)
-print("len(s_list) :",len(s_list))
+# print("set t in s_list :\n",s_list)
+# print("len(s_list) :",len(s_list))
 
 cnt = 0
 l_list = [0] * 88
@@ -43,7 +43,7 @@ for i in s_list:
 	cnt += 2
 
 print(l_list)
-print("len(l_list) :",len(l_list))
+# print("len(l_list) :",len(l_list))
 
-print('------- end program [EOF] -------')
+# print('------- end program [EOF] -------')
 

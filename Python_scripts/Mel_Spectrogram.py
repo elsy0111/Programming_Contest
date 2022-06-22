@@ -7,7 +7,7 @@ import cv2
 fig, ax = plt.subplots()
 
 # Load Audio File
-wav_file_name = "audio/Sample_Audio/asano_short30-35.wav"
+wav_file_name = "./audio/Sample_Audio/asano_short30-35.wav"
 data, PCM = librosa.load(wav_file_name)
 
 fft_size = 2048                 # Frame length
