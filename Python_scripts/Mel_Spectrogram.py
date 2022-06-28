@@ -4,6 +4,10 @@ import librosa.display
 import matplotlib.pyplot as plt
 import cv2
 
+from time import time
+start_time = time()
+
+
 fig, ax = plt.subplots()
 
 # Load Audio File
@@ -42,3 +46,7 @@ img = cv2.imread("images/Mel_Spectrogram_nd.png")
 # Cut,Save Image
 img1 = img[58-1 : 428+1, 80-1: 577+1]
 cv2.imwrite("images/Mel_Spectrogram_nd_cuted.png", img1)
+
+end_time = time()
+
+print(end_time - start_time)

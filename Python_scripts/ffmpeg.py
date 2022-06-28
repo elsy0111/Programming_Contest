@@ -1,6 +1,9 @@
 import subprocess
 from random import randint
 
+from time import time
+
+start_time = time()
 
 def make_random():
 	# print()
@@ -85,3 +88,7 @@ subprocess.run(script,shell = True)
 # subprocess.run(louder_script,shell = True)
 
 print(script)
+
+end_time = time()
+
+print(end_time - start_time)
