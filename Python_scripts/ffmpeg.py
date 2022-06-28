@@ -3,12 +3,14 @@ from time import time
 start_time = time()
 #-----時間計測用-----#
 
+
 #-----IMPORT-----#
 import subprocess
 from random import randint
 #-----IMPORT-----#
 
 
+#--------------Make Random List(length = 88)--------------#
 def make_random():
 	# print()
 	# print('--------- start program ---------')
@@ -54,20 +56,30 @@ def make_random():
 
 	print(l_list)
 	return(l_list)
-	# print("len(l_list) :",len(l_list))
 
 	# print('------- end program [EOF] -------')
+	# print()
+#--------------Make Random List(length = 88)--------------#
 
 
-# 本番用
+#--------------本番用--------------#
 # list = make_random()
+#--------------本番用--------------#
 
+
+#--------------Test Japanese--------------#
 # 日本語計測用(J01-J20)
 # list = [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]
+#--------------Test Japanese--------------#
 
+
+#--------------Test English--------------#
 # 英語計測用(E01-E20)
 list = [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]
+#--------------Test English--------------#
 
+
+#--------------Make Script for Terminal--------------#
 n = 0
 str_list = ""
 
@@ -88,6 +100,8 @@ for i,j in enumerate(list):
 				l = "E" + str(i)
 		str_list += "-i audio/Sample_Audio/"+l+".wav "
 		n += 1
+#--------------Make Script for Terminal--------------#
+
 
 #print(str_list)
 
