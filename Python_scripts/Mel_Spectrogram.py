@@ -3,6 +3,7 @@ from time import time
 start_time = time()
 #-----時間計測用-----#
 
+
 #-----IMPORT-----#
 import numpy as np
 import librosa
@@ -12,44 +13,63 @@ import cv2
 #-----IMPORT-----#
 
 
+#--------------Make(Set) Empty Graph--------------#
 fig, ax = plt.subplots()
+#--------------Make(Set) Empty Graph--------------#
 
-# Load Audio File
+
+#--------------Load Audio File--------------#
 wav_file_name = "audio\Conposition_Audio\out.wav"
 data, PCM = librosa.load(wav_file_name)
+#--------------Load Audio File--------------#
 
+
+#--------------Set Parameter--------------#
 fft_size = 2048                 # Frame length
 hl = int(fft_size / 4)          # Frame shift length
 hi = 512                        # Height of image
 wi = 256                        # Width of image
 F_max = 10000                   # Freq max
 window = np.blackman(fft_size)  # Window Function
+#--------------Set Parameter--------------#
+
 
 plt.rcParams["figure.figsize"] = [20, 10]
 plt.rcParams["figure.autolayout"] = True
 data = data[0:wi*hl]
 
+
+#--------------STFT--------------#
 S = librosa.feature.melspectrogram(
     y = data, sr = PCM, n_mels = hi, fmax = F_max, hop_length = hl, 
     win_length = fft_size, n_fft = fft_size, window = window)
 
 S_dB = librosa.power_to_db(S, ref = np.max)
+#--------------STFT--------------#
 
-# Data Plot
+
+#--------------Data Plot--------------#
 img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
                             sr = PCM, fmax = F_max, ax = ax, cmap = "gray")
+#--------------Data Plot--------------#
 
-# Save Image
-plt.savefig("images/Mel_Spectrogram.png")
+
+#--------------Save Image--------------#
+# plt.savefig("images/Mel_Spectrogram.png")
+# plt.savefig("images/Japanese_01-20/Mel_Spectrogram_J01-20.png")
+plt.savefig("images/English_01-20/Mel_Spectrogram_E01-20.png")
 # plt.show()
+#--------------Save Image--------------#
 
+
+#----------Read,Cut,SaveImage----------#
 # Image Read
-img = cv2.imread("images/Mel_Spectrogram.png")
+# img = cv2.imread("images/Mel_Spectrogram.png")
 
 # img [top : bottom, left : right]
-# Cut,Save Image
-img1 = img[58-1 : 428+1, 80-1: 577+1]
-cv2.imwrite("images/Mel_Spectrogram_cuted.png", img1)
+# img1 = img[58-1 : 428+1, 80-1: 577+1]
+# cv2.imwrite("images/Mel_Spectrogram_cuted.png", img1)
+#----------Read,Cut,SaveImage----------#
 
 
 #-----時間計測用-----#
