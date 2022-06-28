@@ -103,14 +103,17 @@ for i,j in enumerate(list):
 #--------------Make Script for Terminal--------------#
 
 
-#print(str_list)
-
+#--------------Run on Terminal--------------#
 script = "ffmpeg "+str_list+" -filter_complex amix="+str(n)+" -y audio/Conposition_Audio/out.wav"
-
 subprocess.run(script,shell = True)
+#--------------Run on Terminal--------------#
 
+
+#--------------Audio Louder--------------#
 # louder_script = "ffmpeg -i audio/Conposition_Audio/out.wav -filter:a volume=4 audio/Conposition_Audio/out_loud.wav"
 # subprocess.run(louder_script,shell = True)
+#--------------Audio Louder--------------#
+
 
 print("--------SCRIPT--------")
 print(script)
