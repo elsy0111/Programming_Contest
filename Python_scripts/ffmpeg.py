@@ -1,9 +1,13 @@
+#-----時間計測用-----#
+from time import time
+start_time = time()
+#-----時間計測用-----#
+
+#-----IMPORT-----#
 import subprocess
 from random import randint
+#-----IMPORT-----#
 
-from time import time
-
-start_time = time()
 
 def make_random():
 	# print()
@@ -55,21 +59,29 @@ def make_random():
 	# print('------- end program [EOF] -------')
 
 
+# 本番用
+# list = make_random()
 
-list = make_random()
+# 日本語計測用(J01-J20)
+# list = [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]
+
+# 英語計測用(E01-E20)
+# list = [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]
 
 n = 0
 str_list = ""
 
 for i,j in enumerate(list):
-	i = int(i/2) + 1
 	if j == 1:
-		if i%2 != 0: #日本語
+		if i%2 == 0: #日本語
+			i = int(i/2) + 1
 			if len(str(i)) == 1:
 				l = "J0" + str(i)
 			else:
 				l = "J" + str(i)
 		else:#英語
+			i = int(i/2) + 1
+
 			if len(str(i)) == 1:
 				l = "E0" + str(i)
 			else:
@@ -77,18 +89,20 @@ for i,j in enumerate(list):
 		str_list += "-i audio/Sample_Audio/"+l+".wav "
 		n += 1
 
-print(str_list)
+#print(str_list)
 
 script = "ffmpeg "+str_list+" -filter_complex amix="+str(n)+" -y audio/Conposition_Audio/out.wav"
 
 subprocess.run(script,shell = True)
 
 # louder_script = "ffmpeg -i audio/Conposition_Audio/out.wav -filter:a volume=4 audio/Conposition_Audio/out_loud.wav"
-
 # subprocess.run(louder_script,shell = True)
 
+print("--------SCRIPT--------")
 print(script)
+print("--------SCRIPT--------")
 
+#-----時間計測用-----#
 end_time = time()
-
 print(end_time - start_time)
+#-----時間計測用-----#

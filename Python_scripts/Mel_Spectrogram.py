@@ -1,11 +1,15 @@
+#-----時間計測用-----#
+from time import time
+start_time = time()
+#-----時間計測用-----#
+
+#-----IMPORT-----#
 import numpy as np
 import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import cv2
-
-from time import time
-start_time = time()
+#-----IMPORT-----#
 
 
 fig, ax = plt.subplots()
@@ -36,17 +40,19 @@ img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
                             sr = PCM, fmax = F_max, ax = ax, cmap = "gray")
 
 # Save Image
-plt.savefig("images/Mel_Spectrogram_nd.png")
+plt.savefig("images/Mel_Spectrogram.png")
 # plt.show()
 
 # Image Read
-img = cv2.imread("images/Mel_Spectrogram_nd.png")
+img = cv2.imread("images/Mel_Spectrogram.png")
 
 # img [top : bottom, left : right]
 # Cut,Save Image
 img1 = img[58-1 : 428+1, 80-1: 577+1]
-cv2.imwrite("images/Mel_Spectrogram_nd_cuted.png", img1)
+cv2.imwrite("images/Mel_Spectrogram_cuted.png", img1)
 
+
+#-----時間計測用-----#
 end_time = time()
-
 print(end_time - start_time)
+#-----時間計測用-----#
