@@ -57,7 +57,8 @@ img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
 #--------------Save Image--------------#
 # plt.savefig("images/Mel_Spectrogram.png")
 # plt.savefig("images/Japanese_01-20/Mel_Spectrogram_J01-20.png")
-plt.savefig("images/English_01-20/Mel_Spectrogram_E01-20.png")
+# plt.savefig("images/English_01-20/Mel_Spectrogram_E01-20.png")
+plt.savefig("images/Test_a,ab,ac/Test_03,0304,0305/Mel_Spectrogram_J03-04.png")
 # plt.show()
 #--------------Save Image--------------#
 
