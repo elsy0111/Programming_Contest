@@ -9,7 +9,6 @@ import numpy as np
 import librosa
 import librosa.display
 import matplotlib.pyplot as plt
-import cv2
 #-----IMPORT-----#
 
 
@@ -19,7 +18,9 @@ fig, ax = plt.subplots()
 
 
 #--------------Load Audio File--------------#
-wav_file_name = "audio\Conposition_Audio\out.wav"
+# wav_file_name = "audio\Conposition_Audio\out.wav"
+wav_file_name = "audio\sample_Q_202205\sample_Q_202205\sample_Q_M01\sample_Q_M01\problem.wav"
+
 data, PCM = librosa.load(wav_file_name)
 #--------------Load Audio File--------------#
 
@@ -58,7 +59,7 @@ img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
 # plt.savefig("images/Mel_Spectrogram.png")
 # plt.savefig("images/Japanese_01-20/Mel_Spectrogram_J01-20.png")
 # plt.savefig("images/English_01-20/Mel_Spectrogram_E01-20.png")
-plt.savefig("images/Test_a,ab,ac/Test_03,0304,0305/Mel_Spectrogram_J03-04.png")
+plt.savefig("a.png")
 # plt.show()
 #--------------Save Image--------------#
 
