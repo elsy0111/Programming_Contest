@@ -71,9 +71,9 @@ for cnv in range(44):
     n = 1
     cnv += 1
     if len(str(cnv)) == 1:
-        l = "J0" + str(cnv)     # Change Thissssss
+        l = "E0" + str(cnv)     # Change Thissssss
     else:
-        l = "J" + str(cnv)      # Change Thissssss
+        l = "E" + str(cnv)      # Change Thissssss
     str_list = "-i audio/Sample_Audio/"+l+".wav "
     #--------------Make Script for Terminal--------------#
 
@@ -130,8 +130,8 @@ for cnv in range(44):
 
     #--------------Save Image--------------#
     # plt.savefig("images/Mel_Spectrogram.png")
-    plt.savefig("images/Japanese_All/Mel_Spectrogram_"+l+".png")      # Change Thissssss
-    # plt.savefig("images/English_All/Mel_Spectrogram_"+l+".png")       # Change Thissssss
+    # plt.savefig("images/Japanese_All/Mel_Spectrogram_"+l+".png")      # Change Thissssss
+    plt.savefig("images/English_All/Mel_Spectrogram_"+l+".png")       # Change Thissssss
     #--------------Save Image--------------#
 
 
