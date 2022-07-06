@@ -36,9 +36,15 @@ script = "ffmpeg "+str_list+"-filter_complex "\
 	'[2]adelay=14400S|14400S[c];'\
 	'[a][b][c]amix=' +str(n)+'" -y audio/Conposition_Audio/out.wav'
 subprocess.run(script,shell = True)
+
+time_script = 'ffmpeg -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
+subprocess.run(time_script,shell = True)
 #--------------Run on Terminal--------------#
 
 
 print("--------SCRIPT--------")
 print(script)
+print("--------SCRIPT--------")
+print("--------SCRIPT--------")
+print(time_script)
 print("--------SCRIPT--------")
