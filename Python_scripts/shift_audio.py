@@ -10,7 +10,7 @@ list = [0,1,0,1,0,1]
 
 #--------------Make Script for Terminal--------------#
 n = 0
-str_list = ""
+audio_str_list = ""
 
 for i,j in enumerate(list):
 	if j == 1:
@@ -26,19 +26,27 @@ for i,j in enumerate(list):
 				l = "E0" + str(i)
 			else:
 				l = "E" + str(i)
-		str_list += "-i audio/Sample_Audio/"+l+".wav "
+		audio_str_list += "-i audio/Sample_Audio/"+l+".wav "
 		n += 1
 #--------------Make Script for Terminal--------------#
 
 
 #--------------Run on Terminal--------------#
-script = "ffmpeg "+str_list+"-filter_complex "\
-	'"[0]adelay=4800S|4800S[a];'\
-	'[1]adelay=9600S|9600S[b];'\
-	'[2]adelay=14400S|14400S[c];'\
-	'[a][b][c]amix=' +str(n)+'" -y audio/Conposition_Audio/out.wav'
+delay_list = [4800,9600,14400] #ここを変更
+delay_str_list = '"'
+end_delay_str_list = ""
+eng_str_list = "abcdefghijklmnopqrstuvwxyz"
+
+for i in range(n):
+    delay_str_list += '[' + str(i) + "]adelay = " + str(delay_list[i]) + "S|" + str(delay_list[i]) + "S[" + eng_str_list[i] + "];"
+    end_delay_str_list += "[" + eng_str_list[i] + "]"
+
+out = 'audio/Conposition_Audio/out.wav'
+
+script = "ffmpeg " + audio_str_list + "-filter_complex " + delay_str_list + end_delay_str_list + 'amix=' +str(n)+'" -y ' + out
 subprocess.run(script,shell = True)
 
+#10sにそろえる
 time_script = 'ffmpeg -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
 subprocess.run(time_script,shell = True)
 #--------------Run on Terminal--------------#
