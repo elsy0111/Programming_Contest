@@ -157,7 +157,7 @@ script = "ffmpeg " + audio_str_list + "-filter_complex " + delay_str_list + end_
 subprocess.run(script,shell = True)
 
 #10sにそろえる
-time_script = 'ffmpeg -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
+time_script = 'echo Y | ffmpeg -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
 subprocess.run(time_script,shell = True)
 #--------------Run on Terminal--------------#
 
