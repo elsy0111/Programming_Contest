@@ -1,16 +1,20 @@
 import librosa
 from random import randint
 
-n_split = 4
+n_split = 5
 
-wav_file_name = "Python_scripts/audio/Sample_Audio/E01.wav"
+wav_file_name = "audio/Sample_Audio/E01.wav"
 
-data,PCM = librosa.load(wav_file_name)
+n = librosa.get_samplerate(wav_file_name)
+
+data,PCM = librosa.load(wav_file_name,sr = n)
 
 frames = len(data)
 sec = frames/PCM
 c = True
 
+print(frames)
+print(PCM)
 print("SEC : ",sec)
 
 while c:
@@ -23,6 +27,6 @@ while c:
     print("WHILE : ",split_list)
     c = False
     for i in range(n_split + 1):
-        if split_list[i + 1] - split_list[i] <= 0.5 * 44100:
+        if split_list[i + 1] - split_list[i] <= 0.5 * 48000:
             c = True
-print("final : ",split_list)
+print("final : ",split_list) 

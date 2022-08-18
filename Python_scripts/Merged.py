@@ -13,7 +13,6 @@ import librosa.display
 import matplotlib.pyplot as plt
 #-----IMPORT-----#
 
-plt.rcParams['font.family'] = "MS Gothic"
 
 card_list = [   "あ・浅間のいたずら鬼の押出し",
                 "い・伊香保温泉日本の名湯",
@@ -61,9 +60,6 @@ card_list = [   "あ・浅間のいたずら鬼の押出し",
                 "わ・和算の大家関孝和"]
 
 
-#--------------Make(Set) Empty Graph--------------#
-fig, ax = plt.subplots()
-#--------------Make(Set) Empty Graph--------------#
 
 #--------------Make Random List(length = 88)--------------#
 # print()
@@ -114,6 +110,8 @@ print("DATASET : ",list)
 # print()
 #--------------Make Random List(length = 88)--------------#
 
+
+
 #--------------Make Script for Terminal--------------#
 n = 0
 audio_str_list = ""
@@ -157,7 +155,7 @@ script = "ffmpeg " + audio_str_list + "-filter_complex " + delay_str_list + end_
 subprocess.run(script,shell = True)
 
 #10sにそろえる
-time_script = 'echo Y | ffmpeg -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
+time_script = 'ffmpeg -y -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
 subprocess.run(time_script,shell = True)
 #--------------Run on Terminal--------------#
 
@@ -166,6 +164,15 @@ print("--------SCRIPT--------")
 print(script)
 print("--------SCRIPT--------")
 print()
+
+
+
+plt.rcParams['font.family'] = "MS Gothic"
+
+#--------------Make(Set) Empty Graph--------------#
+fig, ax = plt.subplots()
+#--------------Make(Set) Empty Graph--------------#
+
 
 
 #--------------Load Audio File--------------#
