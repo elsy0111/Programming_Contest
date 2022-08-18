@@ -160,7 +160,7 @@ subprocess.run(script,shell = True)
 
 # for i in range(n_split):
     
-# 
+
 #2sにそろえる
 time_script = 'ffmpeg -y -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=2" audio/Conposition_Audio/time_out.wav'
 subprocess.run(time_script,shell = True)
