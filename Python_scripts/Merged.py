@@ -183,9 +183,9 @@ data, PCM = librosa.load(wav_file_name)
 #--------------Set Parameter--------------#
 fft_size = 2048                 # Frame length
 hl = int(fft_size / 4)          # Frame shift length
-hi = 512                        # Height of image
-wi = 256                        # Width of image
-F_max = 10000                   # Freq max
+hi = 300                        # Height of image
+wi = 300                        # Width of image
+F_max = 20000                   # Freq max
 window = np.blackman(fft_size)  # Window Function
 #--------------Set Parameter--------------#
 

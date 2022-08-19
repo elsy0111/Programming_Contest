@@ -65,7 +65,7 @@ card_list = [   "あ・浅間のいたずら鬼の押出し",
 # print()
 # print('--------- start program ---------')
 
-N = randint(2,3)
+N = randint(3,5)#3-20
 print("N = ",N)
 
 t = []
@@ -110,8 +110,13 @@ print("DATASET : ",list)
 # print()
 #--------------Make Random List(length = 88)--------------#
 
+# f = open(str(t) + '.txt', 'w')
 
+# f.write(str(t)+'\n')
+# f.write("DATASET"+'\n')
+# f.write(list+'\n')
 
+#-------------------ここから合成---------------------#
 #--------------Make Script for Terminal--------------#
 out = 'audio/Conposition_Audio/out.wav'
 
@@ -138,7 +143,7 @@ for i,j in enumerate(list):
 
 delay_list = []
 for i in range(n):
-    delay_list.append(randint(1,200000)) #ChangeThisssssssssssssssss
+    delay_list.append(randint(1,100000)) #ChangeThisssssssssssssssss
 
 delay_str_list = '"'
 end_delay_str_list = ""
@@ -153,12 +158,15 @@ script = "ffmpeg " + audio_str_list + "-filter_complex " + delay_str_list + end_
 #--------------Make Script for Terminal--------------#
 
 
+
+# f.write("Delay_List"+'\n')
+# f.write(delay_list+'\n')
+# f.write("FFmpeg Script"+'\n')
+# f.write(script+'\n')
+
+
 #--------------Run on Terminal--------------#
 subprocess.run(script,shell = True)
-
-# #10sにそろえる
-# time_script = 'ffmpeg -y -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
-# subprocess.run(time_script,shell = True)
 #--------------Run on Terminal--------------#
 
 print()
@@ -167,33 +175,129 @@ print(script)
 print("--------SCRIPT--------")
 print()
 
+#-------------------ここまで合成---------------------#
+
+#-------------------ここから分割---------------------#
+
+n_split = 5 #Change Thisssssssssssssssssssssssss
+
+wav_file_name = "audio/Conposition_Audio/out.wav"
+
+pcm_n = librosa.get_samplerate(wav_file_name)
+
+data,PCM = librosa.load(wav_file_name,sr = pcm_n)
+
+frames = len(data)
+sec = frames/PCM
+c = True
+
+print("frames :",frames)
+print("PCM : ",PCM)
+print("SEC : ",sec)
+
+while c:
+    split_list = []
+    for i in range(n_split):
+        split_list.append(randint(1,frames))
+    split_list.sort()
+    split_list.insert(0,0)
+    split_list.append(frames)
+    print("WHILE : ",split_list)
+    c = False
+    for i in range(n_split + 1):
+        if split_list[i + 1] - split_list[i] <= 0.5 * 48000:
+            c = True
+print("final : ",split_list)
+
+
+for j in range(n_split + 1):
+    start_sample = split_list[j] + 1
+    end_sample = split_list[j + 1]
+    print(start_sample,end_sample)
+
+    out = 'audio/Conposition_Audio/split/n_out_' + str(j + 1) + '.wav'
+
+    script = "ffmpeg -y -i " + wav_file_name + " -af atrim=start_sample=" + str(start_sample) + ":end_sample=" + str(end_sample) + " " +  out
+
+    subprocess.run(script,shell = True)
+ 
+    #3sにそろえる
+    time_script = 'ffmpeg -y -i ' + out + ' -af "apad=whole_dur=3" audio/Conposition_Audio/split/out_' + str(j + 1) + '.wav'
+    subprocess.run(time_script,shell = True)
+
+#-------------------ここまで分離---------------------#
 
 plt.rcParams['font.family'] = "MS Gothic"
 
-#--------------Make(Set) Empty Graph--------------#
-fig, ax = plt.subplots()
-#--------------Make(Set) Empty Graph--------------#
+#--------------Set Parameter--------------#
+fft_size = 2048                 # Frame length
+hl = int(fft_size / 4)          # Frame shift length
+hi = 512                        # Height of image
+wi = 512                        # Width of image
+F_max = 16000                   # Freq max
+window = np.blackman(fft_size)  # Window Function
+#--------------Set Parameter--------------#
 
-#--------------Load Audio File--------------#
-wav_file_name = "audio\Conposition_Audio\\time_out.wav"
-data, PCM = librosa.load(wav_file_name)
-#--------------Load Audio File--------------#
+plt.rcParams["figure.figsize"] = [10,8]
+plt.rcParams["figure.autolayout"] = True
+
+for j in range(n_split + 1):
+    #--------------Make(Set) Empty Graph--------------#
+    fig, ax = plt.subplots()
+    #--------------Make(Set) Empty Graph--------------#
+
+    #--------------Load Audio File--------------#
+    wav_file_name = "audio/Conposition_Audio/split/out_" + str(j + 1) + ".wav"
+    data, PCM = librosa.load(wav_file_name,sr = pcm_n)
+    #--------------Load Audio File--------------#
+
+    data = data[0:wi*hl]
+
+    #--------------STFT--------------#
+    S = librosa.feature.melspectrogram(
+        y = data, sr = PCM, n_mels = hi, fmax = F_max, hop_length = hl, 
+        win_length = fft_size, n_fft = fft_size, window = window)
+
+    S_dB = librosa.power_to_db(S, ref = np.max)
+    #--------------STFT--------------#
+
+
+    #--------------Data Plot--------------#
+    plt.title(str(t))
+    img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
+                                sr = PCM, fmax = F_max, ax = ax, cmap = "gray")
+    #--------------Data Plot--------------#
+
+
+    #--------------Save Image--------------#
+    # plt.savefig("images/Mel_Spectrogram.png")
+    # plt.savefig("images/Japanese_All/Mel_Spectrogram_"+l+".png")      # Change Thissssss
+    plt.savefig("images/Test/"+ str(t) + "_" + str(j + 1) + ".png")       # Change Thissssss
+    #--------------Save Image--------------#
+
+
+
 
 
 #--------------Set Parameter--------------#
 fft_size = 2048                 # Frame length
 hl = int(fft_size / 4)          # Frame shift length
 hi = 512                        # Height of image
-wi = 256                        # Width of image
-F_max = 10000                   # Freq max
+wi = 300                        # Width of image
+F_max = 16000                   # Freq max
 window = np.blackman(fft_size)  # Window Function
 #--------------Set Parameter--------------#
 
+#--------------Make(Set) Empty Graph--------------#
+fig, ax = plt.subplots()
+#--------------Make(Set) Empty Graph--------------#
 
-plt.rcParams["figure.figsize"] = [20, 10]
-plt.rcParams["figure.autolayout"] = True
+#--------------Load Audio File--------------#
+wav_file_name = "audio/Conposition_Audio/out.wav"
+data, PCM = librosa.load(wav_file_name,sr = pcm_n)
+#--------------Load Audio File--------------#
+
 data = data[0:wi*hl]
-
 
 #--------------STFT--------------#
 S = librosa.feature.melspectrogram(
@@ -214,8 +318,9 @@ img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
 #--------------Save Image--------------#
 # plt.savefig("images/Mel_Spectrogram.png")
 # plt.savefig("images/Japanese_All/Mel_Spectrogram_"+l+".png")      # Change Thissssss
-plt.savefig("images/Test/"+str(t)+".png")       # Change Thissssss
+plt.savefig("images/Test/"+ str(t) + ".png")       # Change Thissssss
 #--------------Save Image--------------#
+
 
 
 #-----時間計測用-----#
