@@ -13,7 +13,6 @@ import librosa.display
 import matplotlib.pyplot as plt
 #-----IMPORT-----#
 
-plt.rcParams['font.family'] = "MS Gothic"
 
 card_list = [   "あ・浅間のいたずら鬼の押出し",
                 "い・伊香保温泉日本の名湯",
@@ -61,9 +60,6 @@ card_list = [   "あ・浅間のいたずら鬼の押出し",
                 "わ・和算の大家関孝和"]
 
 
-#--------------Make(Set) Empty Graph--------------#
-fig, ax = plt.subplots()
-#--------------Make(Set) Empty Graph--------------#
 
 #--------------Make Random List(length = 88)--------------#
 # print()
@@ -114,7 +110,11 @@ print("DATASET : ",list)
 # print()
 #--------------Make Random List(length = 88)--------------#
 
+
+
 #--------------Make Script for Terminal--------------#
+out = 'audio/Conposition_Audio/out.wav'
+
 n = 0
 audio_str_list = ""
 
@@ -135,10 +135,7 @@ for i,j in enumerate(list):
 				l = "E" + str(i)
 		audio_str_list += "-i audio/Sample_Audio/"+l+".wav "
 		n += 1
-#--------------Make Script for Terminal--------------#
 
-
-#--------------Run on Terminal--------------#
 delay_list = []
 for i in range(n):
     delay_list.append(randint(1,200000)) #ChangeThisssssssssssssssss
@@ -151,14 +148,17 @@ for i in range(n):
     delay_str_list += '[' + str(i) + "]adelay = " + str(delay_list[i]) + "S|" + str(delay_list[i]) + "S[" + eng_str_list[i] + "];"
     end_delay_str_list += "[" + eng_str_list[i] + "]"
 
-out = 'audio/Conposition_Audio/out.wav'
-
 script = "ffmpeg " + audio_str_list + "-filter_complex " + delay_str_list + end_delay_str_list + 'amix=' +str(n)+'" -y ' + out
+
+#--------------Make Script for Terminal--------------#
+
+
+#--------------Run on Terminal--------------#
 subprocess.run(script,shell = True)
 
-#10sにそろえる
-time_script = 'echo Y | ffmpeg -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
-subprocess.run(time_script,shell = True)
+# #10sにそろえる
+# time_script = 'ffmpeg -y -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
+# subprocess.run(time_script,shell = True)
 #--------------Run on Terminal--------------#
 
 print()
@@ -167,6 +167,12 @@ print(script)
 print("--------SCRIPT--------")
 print()
 
+
+plt.rcParams['font.family'] = "MS Gothic"
+
+#--------------Make(Set) Empty Graph--------------#
+fig, ax = plt.subplots()
+#--------------Make(Set) Empty Graph--------------#
 
 #--------------Load Audio File--------------#
 wav_file_name = "audio\Conposition_Audio\\time_out.wav"
@@ -177,9 +183,9 @@ data, PCM = librosa.load(wav_file_name)
 #--------------Set Parameter--------------#
 fft_size = 2048                 # Frame length
 hl = int(fft_size / 4)          # Frame shift length
-hi = 512                        # Height of image
-wi = 256                        # Width of image
-F_max = 10000                   # Freq max
+hi = 300                        # Height of image
+wi = 300                        # Width of image
+F_max = 20000                   # Freq max
 window = np.blackman(fft_size)  # Window Function
 #--------------Set Parameter--------------#
 

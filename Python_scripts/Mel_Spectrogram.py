@@ -21,16 +21,20 @@ fig, ax = plt.subplots()
 # wav_file_name = "audio\Conposition_Audio\out.wav"
 wav_file_name = "audio\sample_Q_202205\sample_Q_202205\sample_Q_M01\sample_Q_M01\problem.wav"
 
-data, PCM = librosa.load(wav_file_name)
+n = librosa.get_samplerate(wav_file_name)
+
+data, PCM = librosa.load(wav_file_name,sr = n)
+print(len(data),PCM)
+print(len(data)/PCM)
 #--------------Load Audio File--------------#
 
 
 #--------------Set Parameter--------------#
 fft_size = 2048                 # Frame length
 hl = int(fft_size / 4)          # Frame shift length
-hi = 512                        # Height of image
-wi = 256                        # Width of image
-F_max = 10000                   # Freq max
+hi = 300                        # Height of image
+wi = 300                        # Width of image
+F_max = 20000                   # Freq max
 window = np.blackman(fft_size)  # Window Function
 #--------------Set Parameter--------------#
 
@@ -59,7 +63,7 @@ img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
 # plt.savefig("images/Mel_Spectrogram.png")
 # plt.savefig("images/Japanese_01-20/Mel_Spectrogram_J01-20.png")
 # plt.savefig("images/English_01-20/Mel_Spectrogram_E01-20.png")
-plt.savefig("a.png")
+plt.savefig("images/a.png")
 # plt.show()
 #--------------Save Image--------------#
 
@@ -76,5 +80,5 @@ plt.savefig("a.png")
 
 #-----時間計測用-----#
 end_time = time()
-print(end_time - start_time)
+print("Took",end_time - start_time,"seconds to run.")
 #-----時間計測用-----#
