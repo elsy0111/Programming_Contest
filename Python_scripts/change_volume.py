@@ -16,3 +16,6 @@ def adjuster(path):
     second_script = "ffmpeg -i "+path+" -filter:a "+'"volume='+str(gap)+'dB"'+" -y ~/procon/Python_scripts/audio/test.wav"
     subprocess.run(second_script , shell=True)
     #江戸時代
+
+if __name__ == '__main__':
+    adjuster()
