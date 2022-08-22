@@ -15,3 +15,4 @@ gap = '{:.1f}'.format(gap)
 print(gap)
 second_script = "ffmpeg -i /Users/sotarofurukawa/procon/Python_scripts/audio/Conposition_Audio/out.wav -filter:a "+'"volume='+str(gap)+'dB"'+" -y ~/procon/Python_scripts/audio/test.wav"
 subprocess.run(second_script , shell=True)
+#江戸時代
