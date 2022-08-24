@@ -13,7 +13,7 @@ def adjuster(path):
     gap = float((-19.2) - f_result)
     gap = '{:.1f}'.format(gap)
     print(gap)
-    second_script = "ffmpeg -i "+path+" -filter:a "+'"volume='+str(gap)+'dB"'+" -y ~/procon/Python_scripts/audio/test.wav"
+    second_script = "ffmpeg -i "+path+" -filter:a "+'"volume='+str(gap)+'dB"'+" -y audio/test.wav"
     subprocess.run(second_script , shell=True)
     #江戸時代
 

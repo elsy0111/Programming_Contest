@@ -1,11 +1,11 @@
 from scipy.io.wavfile import read , write
 import numpy as np
 
-rate , data = read("/Users/sotarofurukawa/procon/Python_scripts/audio/Sample_Audio/E01.wav")
-rate2 , data2 = read("/Users/sotarofurukawa/procon/Python_scripts/audio/Sample_Audio/E02.wav")
-rate3 , data3 = read("/Users/sotarofurukawa/procon/Python_scripts/audio/Sample_Audio/E03.wav")
-writefile = "/Users/sotarofurukawa/procon/Python_scripts/audio/test.wav"
-rate4, data4 = read("/Users/sotarofurukawa/procon/Python_scripts/audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
+rate , data = read("audio/Sample_Audio/E01.wav")
+rate2 , data2 = read("audio/Sample_Audio/E02.wav")
+rate3 , data3 = read("audio/Sample_Audio/E03.wav")
+writefile = "audio/test.wav"
+rate4, data4 = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
 
 print(data)
 print(data2)
