@@ -9,3 +9,4 @@ data, PCM = librosa.load(wav_file_name,sr = n)
 
 print(len(data),PCM)
 print(len(data)/PCM)
+print(data)
