@@ -1,28 +1,35 @@
 from scipy.io.wavfile import read , write
 import numpy as np
 
-rate , data = read("audio/Sample_Audio/E01.wav")
-rate2 , data2 = read("audio/Sample_Audio/E02.wav")
-rate3 , data3 = read("audio/Sample_Audio/E03.wav")
 writefile = "audio/test.wav"
-rate4, data4 = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
+sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
+nspeech = ['E01' , 'E02' , 'E03'] #重なった読みデータ数
+element_list = []
+for i in nspeech:
+    rater , datat = read("audio/Sample_Audio/"+i+".wav")
+    element_list.append(len(datat))
+    
+new_list = sorted(element_list,reverse=True)
+print(new_list)
+print(element_list)
+max_element = new_list[0]
+print(max_element)
+result = np.zeros(max_element)
+for i,name in enumerate(nspeech):
+    rater , datat = read("audio/Sample_Audio/"+name+".wav")
+    print("element:"+str(len(datat)))
+    pad_param = max_element-len(datat)
+    print(pad_param)
+    decoy = np.pad(datat,[0,pad_param])
+    print(len(decoy))
+    result += decoy
 
-print(data)
-print(data2)
-print(data3)
-print(len(data))
-print(len(data2))
-print(len(data3))
+#writefile = "audio/test.wav"
 
-for i in range(8871):
-    data=np.append(data,[0])
+#rate4, data4 = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
 
-for i in range(51528):
-    data3=np.append(data3,[0])
-print(data.dtype)
-data += data2 + data3
-data_a = np.array(data,dtype=np.float64)
+data_a = np.array(result,dtype=np.float64)
 data_a /= 32768
-write(writefile,rate=rate,data=data_a)
-print(len(data_a))
-print(len(data4))
+write(writefile,rate=rater,data=data_a)
+print(data_a)
+print(sample)
