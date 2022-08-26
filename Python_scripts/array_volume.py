@@ -53,3 +53,17 @@ for i,name in enumerate(audio_list):
 
 print(result)
 print(sample)
+
+f = open('array_volume_debug.txt', 'w')
+f.write("sample - result" + "\n")
+
+s3 = 0
+
+for i in range(len(sample)):	#len(sample) > len(result)
+	s = str(sample[i]) + " - " + str(result[i])
+	s2 = str(sample[i] - result[i])
+	s3 += int(s2)
+	f.write(s + " = " + s2 + "\n")
+
+f.write("sum entropy : " + str(s3))
+f.close()
