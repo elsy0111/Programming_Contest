@@ -3,7 +3,6 @@ from scipy.io.wavfile import read , write
 import numpy as np
 from random import randint
 
-#PCM not used
 
 PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
 
@@ -31,7 +30,6 @@ for i,j in enumerate(audio_d_list):
 		audio_list.append(l)	
 		n += 1
 #--------------Make filename by audio_d_list-----------#
-
 
 
 
@@ -67,8 +65,6 @@ print("raw_audio_length + delay_list \n",raw_audio_length_list + delay_list)
 
 
 
-
-
 max_audio_length = max(audio_length_list)    
 
 result = np.zeros(max_audio_length,dtype = int)
@@ -81,3 +77,8 @@ for data in all_data:
 
 print(result)
 print(len(result))
+result = np.array(result,dtype = float)
+result /= 2**15
+
+writefile = "audio/Conposition_Audio/out.wav"
+write(writefile,rate = PCM,data = result)
