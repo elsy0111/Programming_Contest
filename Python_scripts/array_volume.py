@@ -1,35 +1,55 @@
+from itertools import chain
 from scipy.io.wavfile import read , write
 import numpy as np
 
-writefile = "audio/test.wav"
-sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
-nspeech = ['E01' , 'E02' , 'E03'] #重なった読みデータ数
-element_list = []
-for i in nspeech:
-    rater , datat = read("audio/Sample_Audio/"+i+".wav")
-    element_list.append(len(datat))
-    
-new_list = sorted(element_list,reverse=True)
-print(new_list)
-print(element_list)
-max_element = new_list[0]
-print(max_element)
-result = np.zeros(max_element)
-for i,name in enumerate(nspeech):
-    rater , datat = read("audio/Sample_Audio/"+name+".wav")
-    print("element:"+str(len(datat)))
-    pad_param = max_element-len(datat)
-    print(pad_param)
-    decoy = np.pad(datat,[0,pad_param])
-    print(len(decoy))
-    result += decoy
+#PCM not used
 
-#writefile = "audio/test.wav"
+PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
 
-#rate4, data4 = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
+audio_d_list = [0,1,0,1,0,1]
 
-data_a = np.array(result,dtype=np.float64)
-data_a /= 32768
-write(writefile,rate=rater,data=data_a)
-print(data_a)
+#--------------Make Script for Terminal--------------#
+n = 0
+audio_str_list = ""
+audio_list = []
+
+for i,j in enumerate(audio_d_list):
+	if j == 1:
+		if i%2 == 0: #日本語
+			i = int(i/2) + 1
+			if len(str(i)) == 1:
+				l = "J0" + str(i)
+			else:
+				l = "J" + str(i)
+		else:#英語
+			i = int(i/2) + 1
+			if len(str(i)) == 1:
+				l = "E0" + str(i)
+			else:
+				l = "E" + str(i)
+		audio_list.append(l)	
+		audio_str_list += "-i audio/Sample_Audio/"+l+".wav "
+		n += 1
+#--------------Make Script for Terminal--------------#
+
+audio_length_list = []
+
+for i in audio_list:
+    PCM , data = read("audio/Sample_Audio/"+i+".wav")
+    audio_length_list.append(len(data))
+
+max_audio_length = max(audio_length_list)    
+
+result = np.zeros(max_audio_length,dtype = int)
+
+for i,name in enumerate(audio_list):
+	PCM , data = read("audio/Sample_Audio/"+name+".wav")
+	n_empty = max_audio_length - len(data)
+	empty_list = np.zeros(n_empty,dtype = int)
+	long_data = list(chain(data,empty_list))
+	result += long_data
+
+# result /= 2**15
+
+print(result)
 print(sample)
