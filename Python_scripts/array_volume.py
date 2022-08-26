@@ -8,7 +8,7 @@ PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E
 
 audio_d_list = [0,1,0,1,0,1]
 
-#--------------Make Script for Terminal--------------#
+#--------------Make filename by audio_d_list-----------#
 n = 0
 audio_str_list = ""
 audio_list = []
@@ -28,9 +28,8 @@ for i,j in enumerate(audio_d_list):
 			else:
 				l = "E" + str(i)
 		audio_list.append(l)	
-		audio_str_list += "-i audio/Sample_Audio/"+l+".wav "
 		n += 1
-#--------------Make Script for Terminal--------------#
+#--------------Make filename by audio_d_list-----------#
 
 audio_length_list = []
 
@@ -49,21 +48,19 @@ for i,name in enumerate(audio_list):
 	long_data = list(chain(data,empty_list))
 	result += long_data
 
-# result /= 2**15
-
 print(result)
 print(sample)
 
 f = open('array_volume_debug.txt', 'w')
 f.write("sample - result" + "\n")
 
-s3 = 0
+sum_entropy = 0
 
 for i in range(len(sample)):	#len(sample) > len(result)
 	s = str(sample[i]) + " - " + str(result[i])
 	s2 = str(sample[i] - result[i])
-	s3 += int(s2)
+	sum_entropy += int(s2)
 	f.write(s + " = " + s2 + "\n")
 
-f.write("sum entropy : " + str(s3))
+f.write("sum entropy : " + str(sum_entropy))
 f.close()
