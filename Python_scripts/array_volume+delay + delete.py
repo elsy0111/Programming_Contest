@@ -75,23 +75,38 @@ for data in all_data:
 	long_data = list(chain(data,empty_list))
 	result += long_data
 
-print(result)
-print(len(result))
-result = np.array(result,dtype = float)
-result /= 2**15
+print("result\n",result)
+print("result audio length\n",len(result))
+
+#-----------write txt------------
+f = open('delete_debug.txt', 'w')
+
+for i in range(len(sample)):	#len(sample) > len(result)
+	s = str(sample[i]) + " , " + str(result[i])
+	f.write(s + "\n")
+
+f.close()
+#-----------write txt------------
 
 
+#--------------delete start end--------------
 delete_list = []
 for i in range(2):
 	delete_list.append(randint(1,24000))
 
-print(delete_list)
+print("delete_list\n",delete_list)
 
-result = result[:len(result) - delete_list[0]]
-print(len(result))
-result = result[delete_list[1]:]
-print(len(result))
+result = result[:len(result) - delete_list[1]]
+# print(len(result))
+result = result[delete_list[0]:]
+# print(len(result))
+#--------------delete start end--------------
 
+print("result",result)
+
+
+result = np.array(result,dtype = float)
+result /= 2**15
 
 writefile = "audio/Conposition_Audio/out.wav"
 write(writefile,rate = PCM,data = result)
