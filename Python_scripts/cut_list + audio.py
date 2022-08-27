@@ -1,3 +1,4 @@
+#-----------------cut list------------------
 import subprocess
 import librosa
 from random import randint
@@ -31,8 +32,11 @@ while c:
         if split_list[i + 1] - split_list[i] <= 0.5 * 48000:
             c = True
 print("final : ",split_list)
+#-----------------cut list------------------
 
 
+
+#-----------------cut audio------------------
 for j in range(n_split + 1):
     start_sample = split_list[j] + 1
     end_sample = split_list[j + 1]
@@ -44,3 +48,4 @@ for j in range(n_split + 1):
 
     subprocess.run(script,shell = True)
     print(script)
+#-----------------cut audio------------------

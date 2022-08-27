@@ -13,54 +13,6 @@ import librosa.display
 import matplotlib.pyplot as plt
 #-----IMPORT-----#
 
-
-card_list = [   "あ・浅間のいたずら鬼の押出し",
-                "い・伊香保温泉日本の名湯",
-                "う・碓氷峠の関所跡",
-                "え・縁起だるまの少林山",
-                "お・太田金山子育呑龍",
-                "か・関東と信越つなぐ高崎市",
-                "き・桐生は日本の旗どころ",
-                "く・草津よいとこ薬の温泉",
-                "け・県都前橋生糸の市",
-                "こ・心の塔台内村鑑三",
-                "さ・三波石と共に名高い冬桜",
-                "し・しのぶ毛の国二子塚",
-                "す・裾野は長し赤城山",
-                "せ・仙境尾瀬沼花の原",
-                "そ・そろいの支度で八木節音頭",
-                "た・滝は吹割片品渓谷",
-                "ち・力あわせる二百万",
-                "つ・つる舞う形の群馬県",
-                "て・天下の義人茂左衛門",
-                "と・利根は坂東一の川",
-                "な・中仙道しのぶ安中杉並木",
-                "に・日本で最初の富岡製糸",
-                "ぬ・沼田城下の塩原太助",
-                "ね・ねぎとこんにゃく下仁田名産",
-                "の・登る榛名のキャンプ村",
-                "は・花山公園つつじの名所",
-                "ひ・白衣観音慈悲の御手",
-                "ふ・分福茶釜の茂林寺",
-                "へ・平和の使徒新島襄",
-                "ほ・誇る文豪田山花袋",
-                "ま・繭と生糸は日本一",
-                "み・水上谷川スキーと登山",
-                "む・昔を語る多胡の古碑",
-                "め・銘仙織出す伊勢崎市",
-                "も・紅葉に映える妙義山",
-                "や・耶馬溪しのぐ吾妻峡",
-                "ゆ・ゆかりは古し貫前神社",
-                "よ・世のちり洗う四万温泉",
-                "ら・雷と空風義理人情",
-                "り・理想の電化に電源群馬",
-                "る・ループで名高い清水トンネル",
-                "れ・歴史に名高い新田義貞",
-                "ろ・老農船津伝次平",
-                "わ・和算の大家関孝和"]
-
-
-
 #--------------Make Random List(length = 88)--------------#
 # print()
 # print('--------- start program ---------')
@@ -92,19 +44,19 @@ for i in t:
 # print("len(s_list) :",len(s_list))
 
 cnt = 0
-list = [0] * 88
+list88 = [0] * 88
 for i in s_list:
     if i == 1:
         j = randint(0,1)
         if j == 1:
-            list[cnt] = 1
-            list[cnt + 1] = 0
+            list88[cnt] = 1
+            list88[cnt + 1] = 0
         else:
-            list[cnt] = 0
-            list[cnt + 1] = 1
+            list88[cnt] = 0
+            list88[cnt + 1] = 1
     cnt += 2
 
-print("DATASET : ",list)
+print("answer_label : ",list88)
 
 # print('------- end program [EOF] -------')
 # print()
@@ -112,29 +64,51 @@ print("DATASET : ",list)
 
 
 
-#--------------Make Script for Terminal--------------#
+#--------------Make filename by list88--------------#
 out = 'audio/Conposition_Audio/out.wav'
 
-n = 0
-audio_str_list = ""
+n_audio = 0
+audio_list = ""
 
 
-for i,j in enumerate(list):
-	if j == 1:
-		if i%2 == 0: #日本語
-			i = int(i/2) + 1
-			if len(str(i)) == 1:
-				l = "J0" + str(i)
-			else:
-				l = "J" + str(i)
-		else:#英語
-			i = int(i/2) + 1
-			if len(str(i)) == 1:
-				l = "E0" + str(i)
-			else:
-				l = "E" + str(i)
-		audio_str_list += "-i audio/Sample_Audio/"+l+".wav "
-		n += 1
+for i,j in enumerate(list88):
+    if j == 1:
+        if i%2 == 0: #日本語
+            i = int(i/2) + 1
+            if len(str(i)) == 1:
+                l = "J0" + str(i)
+            else:
+                l = "J" + str(i)
+        else:#英語
+            i = int(i/2) + 1
+            if len(str(i)) == 1:
+                l = "E0" + str(i)
+            else:
+                l = "E" + str(i)
+        audio_list.append(l)
+        n_audio += 1
+#--------------Make filename by list88--------------#
+
+
+
+#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 delay_list = []
 for i in range(n):
