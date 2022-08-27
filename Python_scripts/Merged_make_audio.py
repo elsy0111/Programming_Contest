@@ -158,58 +158,7 @@ write(writefile,rate = PCM,data = result)
 
 #---------------------------Make Audio end-----------------------------#
 
-plt.rcParams['font.family'] = "MS Gothic"
-
-#--------------Make(Set) Empty Graph--------------#
-fig, ax = plt.subplots()
-#--------------Make(Set) Empty Graph--------------#
-
-#--------------Load Audio File--------------#
-wav_file_name = "audio\Conposition_Audio\\time_out.wav"
-data, PCM = librosa.load(wav_file_name)
-#--------------Load Audio File--------------#
-
-
-#--------------Set Parameter--------------#
-fft_size = 2048                 # Frame length
-hl = int(fft_size / 4)          # Frame shift length
-hi = 300                        # Height of image
-wi = 300                        # Width of image
-F_max = 20000                   # Freq max
-window = np.blackman(fft_size)  # Window Function
-#--------------Set Parameter--------------#
-
-
-plt.rcParams["figure.figsize"] = [20, 10]
-plt.rcParams["figure.autolayout"] = True
-data = data[0:wi*hl]
-
-
-#--------------STFT--------------#
-S = librosa.feature.melspectrogram(
-    y = data, sr = PCM, n_mels = hi, fmax = F_max, hop_length = hl, 
-    win_length = fft_size, n_fft = fft_size, window = window)
-
-S_dB = librosa.power_to_db(S, ref = np.max)
-#--------------STFT--------------#
-
-
-#--------------Data Plot--------------#
-plt.title(str(t))
-img = librosa.display.specshow(data = S_dB, x_axis = 'time', y_axis = 'mel',
-                            sr = PCM, fmax = F_max, ax = ax, cmap = "gray")
-#--------------Data Plot--------------#
-
-
-#--------------Save Image--------------#
-# plt.savefig("images/Mel_Spectrogram.png")
-# plt.savefig("images/Japanese_All/Mel_Spectrogram_"+l+".png")      # Change Thissssss
-plt.savefig("images/Test/"+str(t)+".png")       # Change Thissssss
-#--------------Save Image--------------#
-
-
 #-----時間計測用-----#
 end_time = time()
 print(end_time - start_time)
 #-----時間計測用-----#
-
