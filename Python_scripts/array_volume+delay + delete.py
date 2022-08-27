@@ -110,4 +110,3 @@ result /= 2**15
 
 writefile = "audio/Conposition_Audio/out.wav"
 write(writefile,rate = PCM,data = result)
-
