@@ -5,19 +5,17 @@ start_time = time()
 
 
 #-----IMPORT-----#
-import subprocess
+from itertools import chain
 from random import randint
 import numpy as np
 import librosa
 import librosa.display
 import matplotlib.pyplot as plt
+from scipy.io.wavfile import read, write
 #-----IMPORT-----#
 
 #--------------Make Random List(length = 88)--------------#
-# print()
-# print('--------- start program ---------')
-
-N = randint(2,3)
+N = randint(3,20)
 print("N = ",N)
 
 t = []
@@ -31,8 +29,8 @@ while len(t) < N:
     #print()
 t.sort()
 
-print("t =",t)
-print("len(t) :",len(t))
+# print("t =",t)
+# print("len(t) :",len(t))
 
 s_list = [0] * 44
 #print("empty s_list :\n",s_list)
@@ -67,8 +65,9 @@ print("answer_label : ",list88)
 #--------------Make filename by list88--------------#
 out = 'audio/Conposition_Audio/out.wav'
 
+#n_audio = N
 n_audio = 0
-audio_list = ""
+audio_list = []
 
 
 for i,j in enumerate(list88):
@@ -147,6 +146,7 @@ result = result[delete_list[0]:]
 #------------------Delete start end------------------#
 
 print("result : ",result)
+print("len(result) : ",len(result))
 
 #------------------Export audio----------------#
 result = np.array(result,dtype = float)
