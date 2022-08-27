@@ -91,55 +91,25 @@ for i,j in enumerate(list88):
 
 
 
-#
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#--------------Make delay_list--------------#
+all_data = []
 delay_list = []
-for i in range(n):
-    delay_list.append(randint(1,200000)) #ChangeThisssssssssssssssss
+raw_audio_length_list = []
 
-delay_str_list = '"'
-end_delay_str_list = ""
-eng_str_list = "abcdefghijklmnopqrstuvwxyz"
+for i,name in enumerate(audio_list):
+    PCM, data = read("audio/Sample_Audio/"+name+".wav")
+    raw_audio_length_list.append(len(data))
+    delay_random_num = randint(1, 20000)    #random delay
+    delay_list.append(delay_random_num)
+    delay_empty_list= np.zeros(delay_random_num, dtype = int)
+    all_data.append(list(chain(delay_empty_list, data)))
+    
+print("raw_audio_length_list : ", raw_audio_length_list)
+print("delay_list : ", delay_list)
 
-for i in range(n):
-    delay_str_list += '[' + str(i) + "]adelay = " + str(delay_list[i]) + "S|" + str(delay_list[i]) + "S[" + eng_str_list[i] + "];"
-    end_delay_str_list += "[" + eng_str_list[i] + "]"
+audio_length_list = []
+#--------------Make delay_list--------------#
 
-script = "ffmpeg " + audio_str_list + "-filter_complex " + delay_str_list + end_delay_str_list + 'amix=' +str(n)+'" -y ' + out
-
-#--------------Make Script for Terminal--------------#
-
-
-#--------------Run on Terminal--------------#
-subprocess.run(script,shell = True)
-
-# #10sにそろえる
-# time_script = 'ffmpeg -y -i audio/Conposition_Audio/out.wav -af "apad=whole_dur=10" audio/Conposition_Audio/time_out.wav'
-# subprocess.run(time_script,shell = True)
-#--------------Run on Terminal--------------#
-
-print()
-print("--------SCRIPT--------")
-print(script)
-print("--------SCRIPT--------")
-print()
 
 
 plt.rcParams['font.family'] = "MS Gothic"
