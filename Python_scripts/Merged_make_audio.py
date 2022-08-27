@@ -55,9 +55,6 @@ for i in s_list:
     cnt += 2
 
 print("answer_label : ",list88)
-
-# print('------- end program [EOF] -------')
-# print()
 #--------------Make Random List(length = 88)--------------#
 
 
