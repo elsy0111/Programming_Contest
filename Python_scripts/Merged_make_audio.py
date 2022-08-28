@@ -9,10 +9,7 @@ from itertools import chain
 from random import randint
 import numpy as np
 import librosa
-import librosa.display
-import matplotlib.pyplot as plt
 from scipy.io.wavfile import read, write
-import subprocess
 #-----IMPORT-----#
 
 #--------------Make Random List(length = 88)--------------#
@@ -84,6 +81,7 @@ for i,j in enumerate(list88):
                 l = "E" + str(i)
         audio_list.append(l)
         n_audio += 1
+print("audio_list : ", audio_list)
 #--------------Make filename by list88--------------#
 
 
@@ -159,16 +157,16 @@ n_split = randint(3,5) #Change Thisssssssssssssssssssssssss
 
 wav_file_name = writefile
 
-n = librosa.get_samplerate(wav_file_name)
+PCM = 48000
 
-data,PCM = librosa.load(wav_file_name,sr = n)
+data,PCM = librosa.load(wav_file_name,sr = PCM)
 
 frames = len(data)
 sec = frames/PCM
 c = True
 
-print(frames)
-print(PCM)
+print("frames : ",frames)
+print("PCM : ",PCM)
 print("SEC : ",sec)
 
 while c:
@@ -178,30 +176,21 @@ while c:
     split_list.sort()
     split_list.insert(0,0)
     split_list.append(frames)
-    print("WHILE : ",split_list)
     c = False
     for i in range(n_split + 1):
         if split_list[i + 1] - split_list[i] <= 0.5 * 48000:
             c = True
-print("final : ",split_list)
 #-----------------cut list------------------
 
-
-
 #-----------------cut audio------------------
+print("split list : ",split_list)
+split_list[-1] += 1
+print("split_list : ",split_list)
+
 for j in range(n_split + 1):
-    start_sample = split_list[j] + 1
-    end_sample = split_list[j + 1]
-    print(start_sample,end_sample)
-
+    split_data = data[split_list[j]:split_list[j + 1]]
     out = 'audio/Conposition_Audio/split/out_' + str(j + 1) + '.wav'
-
-    script = "ffmpeg -y -i " + wav_file_name + " -af atrim=start_sample=" + str(start_sample) + ":end_sample=" + str(end_sample) + " " +  out
-
-    subprocess.run(script,shell = True)
-    print(script)
-#-----------------cut audio------------------
-
+    write(out,rate = PCM,data = split_data)
 #---------------------------Make Audio end-----------------------------#
 
 #-----時間計測用-----#
