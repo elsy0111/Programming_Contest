@@ -193,6 +193,10 @@ for j in range(n_split + 1):
     write(out,rate = PCM,data = split_data)
 #---------------------------Make Audio end-----------------------------#
 
+f = open('Dataset.txt', 'w')
+f.write("sum entropy : " + str(sum_entropy))
+f.close()
+
 #-----時間計測用-----#
 end_time = time()
 print(end_time - start_time)
