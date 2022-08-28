@@ -12,6 +12,8 @@ import librosa
 from scipy.io.wavfile import read, write
 #-----IMPORT-----#
 
+f = open('meta_data.txt', 'w')
+
 #--------------Make Random List(length = 88)--------------#
 N = randint(3,20)
 print("N = ",N)
@@ -57,6 +59,17 @@ print("answer_label : ",list88)
 
 
 
+
+
+
+f.write("合成データ数" + "\n" + str(N) + "\n")
+f.write("合成元(目標値)" + "\n" + str(list88) + "\n")
+
+
+
+
+
+
 #--------------Make filename by list88--------------#
 out = 'audio/Conposition_Audio/out.wav'
 
@@ -81,6 +94,17 @@ for i,j in enumerate(list88):
                 l = "E" + str(i)
         audio_list.append(l)
         n_audio += 1
+
+
+
+
+
+f.write("合成元(種類)" + "\n" + str(audio_list) + "\n")
+
+
+
+
+
 print("audio_list : ", audio_list)
 #--------------Make filename by list88--------------#
 
@@ -115,6 +139,15 @@ print("raw_audio_length + delay_list : ", raw_audio_length_list + delay_list)
 #--------------Make delay_list--------------#
 
 
+
+
+
+f.write("Delay" + "\n" + str(delay_list) + "\n")
+
+
+
+
+
 #------------------Fill Zreo----------------#
 max_audio_length = max(audio_length_list)
 
@@ -140,6 +173,16 @@ print("delete_list : ", delete_list)
 result = result[:len(result) - delete_list[1]]
 result = result[delete_list[0]:]
 #------------------Delete start end------------------#
+
+
+
+
+
+f.write("冒頭,末尾削除" + "\n" + str(delete_list) + "\n")
+
+
+
+
 
 print("result : ",result)
 print("len(result) : ",len(result))
@@ -184,6 +227,15 @@ while c:
 
 #-----------------cut audio------------------
 print("split list : ",split_list)
+
+
+
+
+f.write("分割" + "\n" + str(split_list) + '\n')
+
+
+
+
 split_list[-1] += 1
 print("split_list : ",split_list)
 
@@ -193,8 +245,6 @@ for j in range(n_split + 1):
     write(out,rate = PCM,data = split_data)
 #---------------------------Make Audio end-----------------------------#
 
-f = open('Dataset.txt', 'w')
-f.write("sum entropy : " + str(sum_entropy))
 f.close()
 
 #-----時間計測用-----#
