@@ -5,9 +5,9 @@ from random import randint
 
 
 # PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
-PCM , sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E02/sample_Q_E02/problem.wav")
+PCM , sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E03/sample_Q_E03/problem.wav")
 
-audio_d_list = [0,1,0,1,0,1]
+audio_d_list = [0,1,0,1,0,1,0,1,0,1]
 
 #--------------Make filename by audio_d_list-----------#
 n = 0
@@ -40,7 +40,7 @@ for i,j in enumerate(audio_d_list):
 all_data = []
 delay_list = []	#R^n
 raw_audio_length_list = []
-delay_debug_list = [4800,9600,14400]
+delay_debug_list = [4800,9600,4800,9600,4800]
 
 for i,name in enumerate(audio_list):
 	PCM , data = read("audio/Sample_Audio/"+name+".wav")
@@ -64,7 +64,7 @@ for i in all_data:
 print("audio_length \n",audio_length_list)
 raw_audio_length_list = np.array(raw_audio_length_list)
 delay_list = np.array(delay_list)
-print("raw_audio_length + delay_list \n",raw_audio_length_list + delay_list)
+print("raw_audio_length - delay_list \n",raw_audio_length_list - delay_list)
 
 
 
@@ -80,8 +80,15 @@ for data in all_data:
 	long_data = list(chain(data,empty_list))
 	result += long_data
 
-print(result)
-print(len(result))
+print("result",result)
+print("result_length",len(result))
+print("result_sec",len(result)/48000)
+
+print("sample_length",len(sample))
+print("sample_sec" , len(sample)/48000)
+
+print("Delete_sample",len(result) - len(sample))
+print("Delete_sec",(len(result) - len(sample))/48000)
 result = np.array(result,dtype = float)
 result /= 2**15
 
@@ -92,12 +99,12 @@ write(writefile,rate = PCM,data = result)
 
 
 
-f = open("meeeeta.txt", "w")
+f = open("array_volume + delay.txt", "w")
 
 for i in range(len(sample)):
 	f.write(str(sample[i]))
 	f.write(" : ")
-	f.write(str(result[i] * 2**15))
+	f.write(str(int(result[i] * 2**15)))
 	f.write("\n")
 
 f.close()

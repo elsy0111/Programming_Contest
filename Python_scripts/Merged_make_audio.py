@@ -114,14 +114,16 @@ print("audio_list : ", audio_list)
 all_data = []
 delay_list = []
 raw_audio_length_list = []
+# delay_debug_list = [4800,9600,14400] 
 
 for i,name in enumerate(audio_list):
     PCM, data = read("audio/Sample_Audio/"+name+".wav")
     raw_audio_length_list.append(len(data))
     delay_random_num = randint(1, 20000)    #random delay
+    # delay_random_num = delay_debug_list[i]
     delay_list.append(delay_random_num)
-    delay_empty_list= np.zeros(delay_random_num, dtype = int)
-    all_data.append(list(chain(delay_empty_list, data)))
+    cut_offset_data = data[delay_random_num:]
+    all_data.append(cut_offset_data)
     
 print("raw_audio_length_list : ", raw_audio_length_list)
 print("delay_list : ", delay_list)
@@ -135,7 +137,7 @@ print("audio_length_list : ", audio_length_list)
 
 raw_audio_length_list = np.array(raw_audio_length_list)
 delay_list = np.array(delay_list)
-print("raw_audio_length + delay_list : ", raw_audio_length_list + delay_list)
+print("raw_audio_length - delay_list : ", raw_audio_length_list - delay_list)
 #--------------Make delay_list--------------#
 
 
@@ -160,6 +162,7 @@ for data in all_data:
     result += long_data
 
 print("result : ", result)
+print("max_audio_length : ", max_audio_length)
 print("result_audio_length : ", len(result))
 #------------------Fill Zreo----------------#
 
@@ -185,6 +188,7 @@ f.write("冒頭,末尾削除" + "\n" + str(delete_list) + "\n")
 
 
 print("result : ",result)
+print("max_audio_length - sum(delete_list) : ",max_audio_length - sum(delete_list))
 print("len(result) : ",len(result))
 
 #------------------Export audio----------------#
