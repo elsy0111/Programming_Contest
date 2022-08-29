@@ -1,66 +1,48 @@
-from itertools import chain
 from scipy.io.wavfile import read , write
 import numpy as np
 
-#PCM not used
+pcm,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
 
-PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_E01/sample_Q_E01/problem.wav")
+nspeech = ['E01' , 'E02' , 'E03'] #重なった読みデータ数
 
-audio_d_list = [0,1,0,1,0,1]
+#--------------MakeRandom------------------------
+element_list = []
+for i in nspeech:
+    rater , datat = read("audio/Sample_Audio/"+i+".wav")
+    element_list.append(len(datat))
+#------------------------------------------------
 
-#--------------Make filename by audio_d_list-----------#
-n = 0
-audio_str_list = ""
-audio_list = []
+#--------------max_sample_length---------------- 
+new_list = sorted(element_list,reverse=True)
 
-for i,j in enumerate(audio_d_list):
-	if j == 1:
-		if i%2 == 0: #日本語
-			i = int(i/2) + 1
-			if len(str(i)) == 1:
-				l = "J0" + str(i)
-			else:
-				l = "J" + str(i)
-		else:#英語
-			i = int(i/2) + 1
-			if len(str(i)) == 1:
-				l = "E0" + str(i)
-			else:
-				l = "E" + str(i)
-		audio_list.append(l)	
-		n += 1
-#--------------Make filename by audio_d_list-----------#
+print(new_list)
+print(element_list)
 
-audio_length_list = []
+max_element = new_list[0]
 
-for i in audio_list:
-    PCM , data = read("audio/Sample_Audio/"+i+".wav")
-    audio_length_list.append(len(data))
+print(max_element)
+#------------------------------------------------
 
-max_audio_length = max(audio_length_list)    
+result = np.zeros(max_element)
 
-result = np.zeros(max_audio_length,dtype = int)
+for i,name in enumerate(nspeech):
+    rater , datat = read("audio/Sample_Audio/"+name+".wav")
+    print("element:"+str(len(datat)))
+    pad_param = max_element-len(datat)
+    print(pad_param)
+    decoy = np.pad(datat,[0,pad_param])
+    print(len(decoy))
+    result += decoy
 
-for i,name in enumerate(audio_list):
-	PCM , data = read("audio/Sample_Audio/"+name+".wav")
-	n_empty = max_audio_length - len(data)
-	empty_list = np.zeros(n_empty,dtype = int)
-	long_data = list(chain(data,empty_list))
-	result += long_data
+data_a = np.array(result,dtype=np.int16)
+sample = np.array(sample,dtype=np.int16)
+print(data_a)
+print(len(sample))
 
-print(result)
-print(sample)
+f = open('myfile.txt', 'w')
+f.write("data_a,sample\n")
 
-f = open('array_volume_debug.txt', 'w')
-f.write("sample - result" + "\n")
-
-sum_entropy = 0
-
-for i in range(len(sample)):	#len(sample) > len(result)
-	s = str(sample[i]) + " - " + str(result[i])
-	s2 = str(sample[i] - result[i])
-	sum_entropy += int(s2)
-	f.write(s + " = " + s2 + "\n")
-
-f.write("sum entropy : " + str(sum_entropy))
+for i in range(225000,226816):
+    s = str(data_a[i])+" : "+str(sample[i]) 
+    f.write(s+'\n')
 f.close()
