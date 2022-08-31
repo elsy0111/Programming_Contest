@@ -12,10 +12,11 @@ import librosa
 from scipy.io.wavfile import read, write
 #-----IMPORT-----#
 
-f = open('meta_data.txt', 'w')
+f = open('audio/Conposition_Audio/meta_data.txt', 'w')
 
 #--------------Make Random List(length = 88)--------------#
-N = randint(3,20)
+# N = randint(3,20)     #! No DEBUG
+N = 5                   #! DEBUG
 print("N = ",N)
 
 t = []
@@ -54,6 +55,9 @@ for i in s_list:
             list88[cnt + 1] = 1
     cnt += 2
 
+#! DEBUG
+list88 = [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
 print("answer_label : ",list88)
 #--------------Make Random List(length = 88)--------------#
 
@@ -61,7 +65,7 @@ print("answer_label : ",list88)
 
 
 
-
+#? out meta_data
 f.write("合成データ数" + "\n" + str(N) + "\n")
 f.write("合成元(目標値)" + "\n" + str(list88) + "\n")
 
@@ -99,6 +103,7 @@ for i,j in enumerate(list88):
 
 
 
+#? out meta_data
 f.write("合成元(種類)" + "\n" + str(audio_list) + "\n")
 
 
@@ -114,13 +119,13 @@ print("audio_list : ", audio_list)
 all_data = []
 delay_list = []
 raw_audio_length_list = []
-# delay_debug_list = [4800,9600,14400] 
+delay_debug_list = [4800,9600,14400,19200,24000]   #! DEBUG
 
 for i,name in enumerate(audio_list):
     PCM, data = read("audio/Sample_Audio/"+name+".wav")
     raw_audio_length_list.append(len(data))
-    delay_random_num = randint(1, 20000)    #random delay
-    # delay_random_num = delay_debug_list[i]
+    # delay_random_num = randint(0, 5) * 4800    #! random delay No DEBUG
+    delay_random_num = delay_debug_list[i]      #! DEBUG
     delay_list.append(delay_random_num)
     cut_offset_data = data[delay_random_num:]
     all_data.append(cut_offset_data)
@@ -144,6 +149,7 @@ print("raw_audio_length - delay_list : ", raw_audio_length_list - delay_list)
 
 
 
+#? out meta_data
 f.write("Delay" + "\n" + str(delay_list) + "\n")
 
 
@@ -166,29 +172,40 @@ print("max_audio_length : ", max_audio_length)
 print("result_audio_length : ", len(result))
 #------------------Fill Zreo----------------#
 
-#------------------Delete start end------------------#
-delete_list = []
-for i in range(2):
-    delete_list.append(randint(1,24000))
 
-print("delete_list : ", delete_list)
-
-result = result[:len(result) - delete_list[1]]
-result = result[delete_list[0]:]
-#------------------Delete start end------------------#
+#n_split_audio = n_split + 1
+n_split = randint(3,5) #! n_split
 
 
+# """
+#------------------Delete------------------#
+""" # ! No DEBUG
+while True:
+    delete_num = randint(1,200000)
+    if delete_num <= n_split * 0.65 * 48000:
+        break
+"""
+
+delete_num = 0  #! DEBUG
+
+print("delete_num : ", delete_num)
+
+result = result[:len(result) - delete_num]
+#------------------Delete------------------#
+# """
 
 
 
-f.write("冒頭,末尾削除" + "\n" + str(delete_list) + "\n")
+
+#? out meta_data
+f.write("冒頭,末尾削除" + "\n" + str(delete_num) + "\n")
 
 
 
 
 
 print("result : ",result)
-print("max_audio_length - sum(delete_list) : ",max_audio_length - sum(delete_list))
+print("max_audio_length - sum(delete_list) : ",max_audio_length - delete_num)
 print("len(result) : ",len(result))
 
 #------------------Export audio----------------#
@@ -199,8 +216,6 @@ writefile = "audio/Conposition_Audio/out.wav"
 write(writefile,rate = PCM,data = result)
 #------------------Export audio----------------#
 
-#n_split_audio = n_split + 1
-n_split = randint(3,5) #Change Thisssssssssssssssssssssssss
 
 wav_file_name = writefile
 
@@ -210,12 +225,14 @@ data,PCM = librosa.load(wav_file_name,sr = PCM)
 
 frames = len(data)
 sec = frames/PCM
-c = True
 
 print("frames : ",frames)
 print("PCM : ",PCM)
 print("SEC : ",sec)
 
+
+#-----------------cut list------------------
+c = True
 while c:
     split_list = []
     for i in range(n_split):
@@ -235,6 +252,7 @@ print("split list : ",split_list)
 
 
 
+#? out meta_data
 f.write("分割" + "\n" + str(split_list) + '\n')
 
 
@@ -250,6 +268,25 @@ for j in range(n_split + 1):
 #---------------------------Make Audio end-----------------------------#
 
 f.close()
+
+#! ------------- debug ----------------
+#-----------write txt------------
+PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_J04/sample_Q_J04/problem.wav")
+result *= 2**15
+
+f = open('debug.txt', 'w')
+
+for i in range(len(sample)):	#len(sample) > len(result)
+	s = str(sample[i]) + " , " + str(int(result[i]))
+	f.write(s + "\n")
+
+print("frames: " , frames)
+print("len(sample) = ", len(sample))
+print("frames - len(sample) = ", frames - len(sample))
+
+f.close()
+#-----------write txt------------
+#! ------------- debug ----------------
 
 #-----時間計測用-----#
 end_time = time()
