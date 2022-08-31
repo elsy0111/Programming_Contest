@@ -44,5 +44,3 @@ def send_answer(problem , a_list):
     r = rq.post(base_url+"problem",headers=send_dic,data=json.dumps(send_json))
     print(r.text)
     print(r.status_code)
-
-post_split(2)
