@@ -1,5 +1,5 @@
 get_and_post.pyの使い方
-from get_post.get_and_post import *
+from get_post.get_post import *
 のように書けばPython_Scripts直下にあるプログラムであれば
 モジュールとして組み込める(Python_Scriptsより下にあったら無理)
 
