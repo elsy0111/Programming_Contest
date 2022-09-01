@@ -2,6 +2,7 @@ get_and_post.pyの使い方
 from get_post.get_post import *
 のように書けばPython_Scripts直下にあるプログラムであれば
 モジュールとして組み込める(Python_Scriptsより下にあったら無理)
+※__pycache__は消さなくていいかも
 
 1. get_game
 何も考えずにget_game()しとけば試合情報がわかる
