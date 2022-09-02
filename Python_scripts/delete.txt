@@ -1,0 +1,45 @@
+
+E01
+sample frames : 278344
+result frames : 226816
+entropy	      :  51528
+
+E02
+sample frames : 268744
+result frames : 212416
+entropy	      :  56328
+
+E03
+sample frames : 268744
+result frames : 144000
+entropy	      : 124744
+
+E04
+sample frames : 268744
+result frames : 120000
+entropy	      : 148744
+
+J01
+sample frames : 351762
+result frames : 349752
+entropy	      :   2010
+
+J02
+sample frames : 345462
+result frames : 216000
+entropy	      : 129462
+
+J03
+sample frames : 389806
+result frames : 240000
+entropy	      : 149806
+
+J04
+sample frames : 370606
+result frames : 192000
+entropy	      : 178606
+
+M01
+sample frames : 389806
+result frames : 154996
+entropy	      : 234810
