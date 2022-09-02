@@ -16,7 +16,7 @@ f = open('audio/Conposition_Audio/meta_data.txt', 'w')
 
 #--------------Make Random List(length = 88)--------------#
 # N = randint(3,20)     #! No DEBUG
-N = 5                   #! DEBUG
+N = 5                  #! DEBUG
 print("N = ",N)
 
 t = []
@@ -56,7 +56,7 @@ for i in s_list:
     cnt += 2
 
 #! DEBUG
-list88 = [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+list88 = [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 print("answer_label : ",list88)
 #--------------Make Random List(length = 88)--------------#
@@ -119,7 +119,7 @@ print("audio_list : ", audio_list)
 all_data = []
 delay_list = []
 raw_audio_length_list = []
-delay_debug_list = [4800,9600,14400,19200,24000]   #! DEBUG
+delay_debug_list = [4800,9600,4800,9600,4800]   #! DEBUG
 
 for i,name in enumerate(audio_list):
     PCM, data = read("audio/Sample_Audio/"+name+".wav")
@@ -271,7 +271,7 @@ f.close()
 
 #! ------------- debug ----------------
 #-----------write txt------------
-PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_J04/sample_Q_J04/problem.wav")
+PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_M01/sample_Q_M01/problem.wav")
 result *= 2**15
 
 f = open('debug.txt', 'w')
