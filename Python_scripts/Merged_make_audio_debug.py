@@ -15,8 +15,8 @@ from scipy.io.wavfile import read, write
 f = open('audio/Conposition_Audio/meta_data.txt', 'w')
 
 #--------------Make Random List(length = 88)--------------#
-N = randint(3,5)     #! No DEBUG
-# N = 5                  #! DEBUG
+# N = randint(3,20)     #! No DEBUG
+N = 5                  #! DEBUG
 print("N = ",N)
 
 t = []
@@ -56,7 +56,7 @@ for i in s_list:
     cnt += 2
 
 #! DEBUG
-# list88 = [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+list88 = [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 print("answer_label : ",list88)
 #--------------Make Random List(length = 88)--------------#
@@ -119,13 +119,13 @@ print("audio_list : ", audio_list)
 all_data = []
 delay_list = []
 raw_audio_length_list = []
-# delay_debug_list = [4800,9600,4800,9600,4800]   #! DEBUG
+delay_debug_list = [4800,9600,4800,9600,4800]   #! DEBUG
 
 for i,name in enumerate(audio_list):
     PCM, data = read("audio/Sample_Audio/"+name+".wav")
     raw_audio_length_list.append(len(data))
-    delay_random_num = randint(0, 5) * 4800    #! random delay No DEBUG
-    # delay_random_num = delay_debug_list[i]      #! DEBUG
+    # delay_random_num = randint(0, 5) * 4800    #! random delay No DEBUG
+    delay_random_num = delay_debug_list[i]      #! DEBUG
     delay_list.append(delay_random_num)
     cut_offset_data = data[delay_random_num:]
     all_data.append(cut_offset_data)
@@ -173,27 +173,26 @@ print("result_audio_length : ", len(result))
 #------------------Fill Zreo----------------#
 
 
+#n_split_audio = n_split + 1
+n_split = randint(3,5) #! n_split
+
+
+# """
 #------------------Delete------------------#
-TorF = True
+""" # ! No DEBUG
+while True:
+    delete_num = randint(1,200000)
+    if delete_num <= n_split * 0.65 * 48000:
+        break
+"""
 
-while TorF:
-    cnt = 0
-    n_split = randint(2,5) #! n_split
-# ! No DEBUG
-    while (cnt < 100):
-        cnt += 1
-        delete_num = randint(0,250000)
-        if delete_num <= len(result) - 0.5 * 48000 * n_split:
-            TorF = False
-            break   # ok
+delete_num = 0  #! DEBUG
 
-# delete_num = 0  #! DEBUG
-
-print("n_split : ", n_split)
 print("delete_num : ", delete_num)
 
 result = result[:len(result) - delete_num]
 #------------------Delete------------------#
+# """
 
 
 
@@ -236,13 +235,13 @@ print("SEC : ",sec)
 c = True
 while c:
     split_list = []
-    for i in range(n_split - 1):
+    for i in range(n_split):
         split_list.append(randint(1,frames))
     split_list.sort()
     split_list.insert(0,0)
     split_list.append(frames)
     c = False
-    for i in range(n_split):
+    for i in range(n_split + 1):
         if split_list[i + 1] - split_list[i] <= 0.5 * 48000:
             c = True
 #-----------------cut list------------------
@@ -252,25 +251,42 @@ print("split list : ",split_list)
 
 
 
+
 #? out meta_data
 f.write("分割" + "\n" + str(split_list) + '\n')
+
 
 
 
 split_list[-1] += 1
 print("split_list : ",split_list)
 
-for j in range(n_split):
+for j in range(n_split + 1):
     split_data = data[split_list[j]:split_list[j + 1]]
-    n_empty = 48000 * 2 - len(split_data)
-    empty_list = np.zeros(n_empty,dtype = int)
-    same_length_data = list(chain(split_data,empty_list))
-    print("same_length_data : ",len(same_length_data))
     out = 'audio/Conposition_Audio/split/out_' + str(j + 1) + '.wav'
     write(out,rate = PCM,data = split_data)
 #---------------------------Make Audio end-----------------------------#
 
 f.close()
+
+#! ------------- debug ----------------
+#-----------write txt------------
+PCM,sample = read("audio/sample_Q_202205/sample_Q_202205/sample_Q_M01/sample_Q_M01/problem.wav")
+result *= 2**15
+
+f = open('debug.txt', 'w')
+
+for i in range(len(sample)):	#len(sample) > len(result)
+	s = str(sample[i]) + " , " + str(int(result[i]))
+	f.write(s + "\n")
+
+print("frames: " , frames)
+print("len(sample) = ", len(sample))
+print("frames - len(sample) = ", frames - len(sample))
+
+f.close()
+#-----------write txt------------
+#! ------------- debug ----------------
 
 #-----時間計測用-----#
 end_time = time()
