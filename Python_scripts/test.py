@@ -1,11 +1,5 @@
-from random import randint
+import shutil
+import os
 
-l = []
-
-for i in range(100):
-    n = randint(0,5) * 4800
-    l.append(n)
-
-l = set(l)
-l = sorted(l)
-print(l)
+shutil.rmtree("audio/Conposition_Audio/split")
+os.mkdir("audio/Conposition_Audio/split")
