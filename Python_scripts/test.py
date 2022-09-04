@@ -1,5 +1,6 @@
-import shutil
-import os
+import datetime
 
-shutil.rmtree("audio/Conposition_Audio/split")
-os.mkdir("audio/Conposition_Audio/split")
+dt_now = datetime.datetime.now()
+
+print(dt_now)
+print(dt_now.strftime('%m%d_%H%M%S%f'))

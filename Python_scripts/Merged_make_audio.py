@@ -8,6 +8,7 @@ start_time = time()
 #-----IMPORT-----#
 from itertools import chain
 import os
+import datetime
 import shutil
 from random import randint
 import numpy as np
@@ -15,8 +16,13 @@ import librosa
 from scipy.io.wavfile import read, write
 #-----IMPORT-----#
 
-Dataset_dilectory_name = ""
-f = open('audio/Conposition_Audio/meta_data.txt', 'w')
+dt_now = datetime.datetime.now()
+
+Dataset_dilectory_name = dt_now.strftime('%m%d_%H%M%S%f')
+Dataset_dilectory_name = "audio/Conposition_Audio/" + Dataset_dilectory_name
+os.mkdir(Dataset_dilectory_name)
+
+f = open(Dataset_dilectory_name + '/meta_data.txt', 'w')
 
 #--------------Make Random List(length = 88)--------------#
 N = randint(3,5)     #! No DEBUG
@@ -79,8 +85,6 @@ f.write("合成元(目標値)" + "\n" + str(list88) + "\n")
 
 
 #--------------Make filename by list88--------------#
-out = 'audio/Conposition_Audio/out.wav'
-
 #n_audio = N
 n_audio = 0
 audio_list = []
@@ -218,7 +222,7 @@ print("len(result) : ",len(result))
 result = np.array(result,dtype = float)
 result /= 2**15
 
-writefile = "audio/Conposition_Audio/out.wav"
+writefile = Dataset_dilectory_name +  "/out.wav"
 write(writefile,rate = PCM,data = result)
 #------------------Export audio----------------#
 
@@ -265,8 +269,7 @@ f.write("分割" + "\n" + str(split_list) + '\n')
 split_list[-1] += 1
 print("split_list : ",split_list)
 
-shutil.rmtree("audio/Conposition_Audio/split")
-os.mkdir("audio/Conposition_Audio/split")
+os.mkdir(Dataset_dilectory_name + "/split")
 
 for j in range(n_split):
     split_data = data[split_list[j]:split_list[j + 1]]
@@ -276,10 +279,11 @@ for j in range(n_split):
     except ValueError:
         print("value Error (split_data is too large)")
         f.close()
+        shutil.rmtree(Dataset_dilectory_name)
         exit()
     same_length_data = np.array(list(chain(split_data,empty_list)))
     print("same_length_data : ",len(same_length_data))
-    out = 'audio/Conposition_Audio/split/out_' + str(j + 1) + '.wav'
+    out = Dataset_dilectory_name + '/split/out_' + str(j + 1) + '.wav'
     write(out,rate = PCM,data = same_length_data)
 #---------------------------Make Audio end-----------------------------#
 
