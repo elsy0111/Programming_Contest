@@ -6,6 +6,8 @@ start_time = time()
 
 #-----IMPORT-----#
 from itertools import chain
+import os
+import shutil
 from random import randint
 import numpy as np
 import librosa
@@ -184,8 +186,9 @@ while TorF:
         cnt += 1
         delete_num = randint(0,250000)
         if delete_num <= len(result) - 0.5 * 48000 * n_split:
-            TorF = False
-            break   # ok
+            if (len(result) - delete_num)/n_split <= 48000 * 3:
+                TorF = False
+                break   # ok
 
 # delete_num = 0  #! DEBUG
 
@@ -260,14 +263,20 @@ f.write("分割" + "\n" + str(split_list) + '\n')
 split_list[-1] += 1
 print("split_list : ",split_list)
 
+shutil.rmtree("audio/Conposition_Audio/split")
+os.mkdir("audio/Conposition_Audio/split")
+
 for j in range(n_split):
     split_data = data[split_list[j]:split_list[j + 1]]
-    n_empty = 48000 * 2 - len(split_data)
-    empty_list = np.zeros(n_empty,dtype = int)
-    same_length_data = list(chain(split_data,empty_list))
+    n_empty = 48000 * 3 - len(split_data)
+    try:
+        empty_list = np.zeros(n_empty)
+    except :
+        
+    same_length_data = np.array(list(chain(split_data,empty_list)))
     print("same_length_data : ",len(same_length_data))
     out = 'audio/Conposition_Audio/split/out_' + str(j + 1) + '.wav'
-    write(out,rate = PCM,data = split_data)
+    write(out,rate = PCM,data = same_length_data)
 #---------------------------Make Audio end-----------------------------#
 
 f.close()
