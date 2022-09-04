@@ -1,4 +1,5 @@
 #-----時間計測用-----#
+from ctypes.wintypes import HHOOK
 from time import time
 start_time = time()
 #-----時間計測用-----#
@@ -14,6 +15,7 @@ import librosa
 from scipy.io.wavfile import read, write
 #-----IMPORT-----#
 
+Dataset_dilectory_name = ""
 f = open('audio/Conposition_Audio/meta_data.txt', 'w')
 
 #--------------Make Random List(length = 88)--------------#
@@ -271,8 +273,10 @@ for j in range(n_split):
     n_empty = 48000 * 3 - len(split_data)
     try:
         empty_list = np.zeros(n_empty)
-    except :
-        
+    except ValueError:
+        print("value Error (split_data is too large)")
+        f.close()
+        exit()
     same_length_data = np.array(list(chain(split_data,empty_list)))
     print("same_length_data : ",len(same_length_data))
     out = 'audio/Conposition_Audio/split/out_' + str(j + 1) + '.wav'
