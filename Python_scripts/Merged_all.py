@@ -248,7 +248,6 @@ while True:
 #--------------STFT--------------#
 
 # S_dB.sort(reverse=True)
-        print(type(S_dB))
         S_dB = np.flipud(S_dB)
         imageio.imwrite(Dataset_dilectory_name + "/images/" + str(j + 1) + '.png', S_dB)
     
