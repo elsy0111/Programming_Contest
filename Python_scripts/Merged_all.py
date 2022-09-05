@@ -9,6 +9,23 @@ import librosa
 from scipy.io.wavfile import read, write
 #-----IMPORT-----#
 
+#-----IMPORT-----#
+import librosa.display
+import imageio
+#-----IMPORT-----#
+
+PCM = 48000
+
+#--------------Set Parameter--------------#
+fft_size = 2048                 # Frame length
+hl = int(fft_size / 4)          # Frame shift length
+hi = 300                        # Height of image
+wi = 300+1                        # Width of image
+F_max = 20000                   # Freq max
+window = np.blackman(fft_size)  # Window Function
+#--------------Set Parameter--------------#
+
+
 while True:
     ValueErr = 0
     dt_now = datetime.datetime.now()
@@ -21,7 +38,6 @@ while True:
 
 #--------------Make Random List(length = 88)--------------#
     N = randint(3,20)     #! No DEBUG
-    print("N = ",N)
 
     t = []
 
@@ -81,12 +97,8 @@ while True:
             n_audio += 1
 
 
-
 #? out meta_data
     f.write("合成元(種類)" + "\n" + str(audio_list) + "\n")
-
-
-    print("audio_list : ", audio_list)
 #--------------Make filename by list88--------------#
 
 
@@ -104,19 +116,14 @@ while True:
         cut_offset_data = data[delay_random_num:]
         all_data.append(cut_offset_data)
         
-    print("raw_audio_length_list : ", raw_audio_length_list)
-    print("delay_list : ", delay_list)
-
     audio_length_list = []
 
     for data in all_data:
         audio_length_list.append(len(data))
 
-    print("audio_length_list : ", audio_length_list)
 
     raw_audio_length_list = np.array(raw_audio_length_list)
     delay_list = np.array(delay_list)
-    print("raw_audio_length - delay_list : ", raw_audio_length_list - delay_list)
 #--------------Make delay_list--------------#
 
 
@@ -137,9 +144,6 @@ while True:
         long_data = list(chain(data,empty_list))
         result += long_data
 
-    print("result : ", result)
-    print("max_audio_length : ", max_audio_length)
-    print("result_audio_length : ", len(result))
 #------------------Fill Zreo----------------#
 
 
@@ -157,9 +161,6 @@ while True:
                     TorF = False
                     break   # ok
 
-    print("n_split : ", n_split)
-    print("delete_num : ", delete_num)
-
     result = result[:len(result) - delete_num]
 #------------------Delete------------------#
 
@@ -167,12 +168,6 @@ while True:
 
 #? out meta_data
     f.write("冒頭,末尾削除" + "\n" + str(delete_num) + "\n")
-
-
-
-    print("result : ",result)
-    print("max_audio_length - sum(delete_list) : ",max_audio_length - delete_num)
-    print("len(result) : ",len(result))
 
 #------------------Export audio----------------#
     result = np.array(result,dtype = float)
@@ -182,20 +177,12 @@ while True:
     write(writefile,rate = PCM,data = result)
 #------------------Export audio----------------#
 
-
     wav_file_name = writefile
-
-    PCM = 48000
 
     data,PCM = librosa.load(wav_file_name,sr = PCM)
 
     frames = len(data)
     sec = frames/PCM
-
-    print("frames : ",frames)
-    print("PCM : ",PCM)
-    print("SEC : ",sec)
-
 
 #-----------------cut list------------------
     c = True
@@ -213,15 +200,10 @@ while True:
 #-----------------cut list------------------
 
 #-----------------cut audio------------------
-    print("split list : ",split_list)
-
-
 #? out meta_data
     f.write("分割" + "\n" + str(split_list) + '\n')
 
-
     split_list[-1] += 1
-    print("split_list : ",split_list)
 
     os.mkdir(Dataset_dilectory_name + "/split")
 
@@ -237,10 +219,37 @@ while True:
             ValueErr = 1
             break
         same_length_data = np.array(list(chain(split_data,empty_list)))
-        print("same_length_data : ",len(same_length_data))
         out = Dataset_dilectory_name + '/split/out_' + str(j + 1) + '.wav'
         write(out,rate = PCM,data = same_length_data)
 #---------------------------Make Audio end-----------------------------#
+
     if ValueErr == 1:
         continue
+    
+    os.mkdir(Dataset_dilectory_name + '/images')
+
+    for j in range(n_split):
+        out = Dataset_dilectory_name + '/split/out_' + str(j + 1) + '.wav'
+        
+#--------------Load Audio File--------------#
+        wav_file_name = out
+
+        data, PCM = librosa.load(wav_file_name,sr = PCM)
+#--------------Load Audio File--------------#
+
+        data = data[0:wi*hl]
+
+#--------------STFT--------------#
+        S = librosa.feature.melspectrogram(
+            y = data, sr = PCM, n_mels = hi, fmax = F_max, hop_length = hl, 
+            win_length = fft_size, n_fft = fft_size, window = window)
+
+        S_dB = librosa.power_to_db(S, ref = np.max)
+#--------------STFT--------------#
+
+# S_dB.sort(reverse=True)
+        print(type(S_dB))
+        S_dB = np.flipud(S_dB)
+        imageio.imwrite(Dataset_dilectory_name + "/images/" + str(j + 1) + '.png', S_dB)
+    
     f.close()
