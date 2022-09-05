@@ -26,30 +26,6 @@ window = np.blackman(fft_size)  # Window Function
 #--------------Set Parameter--------------#
 
 
-#--------------Load Audio File--------------#
-wav_file_name = "audio\sample_Q_202205\sample_Q_202205\sample_Q_M01\sample_Q_M01\problem.wav"
-
-n = librosa.get_samplerate(wav_file_name)
-
-data, PCM = librosa.load(wav_file_name,sr = n)
-#--------------Load Audio File--------------#
-
-data = data[0:wi*hl]
-
-#--------------STFT--------------#
-S = librosa.feature.melspectrogram(
-    y = data, sr = PCM, n_mels = hi, fmax = F_max, hop_length = hl, 
-    win_length = fft_size, n_fft = fft_size, window = window)
-
-S_dB = librosa.power_to_db(S, ref = np.max)
-#--------------STFT--------------#
-
-# S_dB.sort(reverse=True)
-print(type(S_dB))
-S_dB = np.flipud(S_dB)
-imageio.imwrite('array_to.png', S_dB)
-
-
 while True:
     ValueErr = 0
     dt_now = datetime.datetime.now()
@@ -227,7 +203,6 @@ while True:
 #? out meta_data
     f.write("分割" + "\n" + str(split_list) + '\n')
 
-
     split_list[-1] += 1
 
     os.mkdir(Dataset_dilectory_name + "/split")
@@ -247,6 +222,33 @@ while True:
         out = Dataset_dilectory_name + '/split/out_' + str(j + 1) + '.wav'
         write(out,rate = PCM,data = same_length_data)
 #---------------------------Make Audio end-----------------------------#
+
     if ValueErr == 1:
         continue
+
+    for j in range(n_split):
+        out = Dataset_dilectory_name + '/split/out_' + str(j + 1) + '.wav'
+        
+#--------------Load Audio File--------------#
+        wav_file_name = out
+        n = librosa.get_samplerate(wav_file_name)
+
+        data, PCM = librosa.load(wav_file_name,sr = n)
+#--------------Load Audio File--------------#
+
+        data = data[0:wi*hl]
+
+#--------------STFT--------------#
+        S = librosa.feature.melspectrogram(
+            y = data, sr = PCM, n_mels = hi, fmax = F_max, hop_length = hl, 
+            win_length = fft_size, n_fft = fft_size, window = window)
+
+        S_dB = librosa.power_to_db(S, ref = np.max)
+#--------------STFT--------------#
+
+# S_dB.sort(reverse=True)
+        print(type(S_dB))
+        S_dB = np.flipud(S_dB)
+        imageio.imwrite('array_to.png', S_dB)
+
     f.close()
