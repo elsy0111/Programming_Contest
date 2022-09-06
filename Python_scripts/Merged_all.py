@@ -25,8 +25,8 @@ F_max = 20000                   # Freq max
 window = np.blackman(fft_size)  # Window Function
 #--------------Set Parameter--------------#
 
-
-for sldjf in range(1):
+# while True:
+for piyo in range(1):
     ValueErr = 0
     dt_now = datetime.datetime.now()
 
