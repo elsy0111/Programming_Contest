@@ -19,14 +19,14 @@ PCM = 48000
 #--------------Set Parameter--------------#
 fft_size = 2048                 # Frame length
 hl = int(fft_size / 4)          # Frame shift length
-hi = 300                        # Height of image
-wi = 300+1                        # Width of image
+hi = 250                        # Height of image
+wi = 250 - 1                    # Width of image
 F_max = 20000                   # Freq max
 window = np.blackman(fft_size)  # Window Function
 #--------------Set Parameter--------------#
 
 
-while True:
+for sldjf in range(1):
     ValueErr = 0
     dt_now = datetime.datetime.now()
 
@@ -247,7 +247,8 @@ while True:
         S_dB = librosa.power_to_db(S, ref = np.max)
 #--------------STFT--------------#
 
-# S_dB.sort(reverse=True)
+        # print("len(S_dB) : ",len(S_dB))
+        # print("len(S_dB[0]) : ",len(S_dB[0]))
         S_dB = np.flipud(S_dB)
         imageio.imwrite(Dataset_dilectory_name + "/images/" + str(j + 1) + '.png', S_dB)
     
