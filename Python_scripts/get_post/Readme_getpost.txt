@@ -5,11 +5,10 @@ from get_post.get_post import *
 ※__pycache__は消さなくていいかも
 
 1. get_game
-何も考えずにget_game()しとけば試合情報がわかる
+get_game()すれば試合情報がわかる
 
 2. get_problem
-これも何も考えずにget_problem()しとけば問題の情報が手に入っちゃう
-まるで今の情報社会を風刺しているかのよう
+これも何も考えずにget_problem()しとけば問題の情報が手に入る
 
 3. post_split(n)
 これはnのところに任意の整数を入れれば
@@ -17,9 +16,7 @@ from get_post.get_post import *
 ・分割データの読み込み
 までを1セットで行うやつ
 関数そのものに返り値を持ってるわけじゃなくてwavファイルをPython_scripts/audioの中に
-ばーん！！！！！！！！って入れるタイプ
-まだ実装してないけど音声ファイル名のリストを返り値にしたら
-スムーズになっていいのかも
+そのまま入れるタイプ
 
 4. send_answer(problem,a_list)
 導き出した答えをサーバーに送ってくれる
