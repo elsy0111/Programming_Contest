@@ -18,7 +18,6 @@ def get_problem():
     print(r.status_code)
 
 def post_split(n):
-    #wavの保存がまだ
     r = rq.post(base_url+"problem/chunks?n="+str(n) , headers=send_dic)
     print(r.text)
     texture = r.text
