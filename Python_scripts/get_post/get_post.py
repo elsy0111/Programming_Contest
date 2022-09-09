@@ -15,7 +15,11 @@ def get_game():
 def get_problem():
     r = rq.get(base_url+"problem" , headers=send_dic)
     print(r.text)
+    texture = r.text
+    result = ast.literal_eval(texture)
+    p_number = result["id"]
     print(r.status_code)
+    return p_number
 
 def post_split(n):
     r = rq.post(base_url+"problem/chunks?n="+str(n) , headers=send_dic)
@@ -33,13 +37,15 @@ def post_split(n):
             file.write(chunk)
         print(r.status_code)
 
-def send_answer(problem , a_list):
+def send_answer(a_list):
     #problem=問題番号(get_problemで取得できる),a_list=読みデータ番号のリスト
     send_dic.update({"Content-Type" : "application/json"})
+    p_number = get_problem()
     send_json = {
-        "problem_id" : problem ,
+        "problem_id" :  str(p_number) ,
         "answers" : a_list
     }
+
     r = rq.post(base_url+"problem",headers=send_dic,data=json.dumps(send_json))
     print(r.text)
     print(r.status_code)

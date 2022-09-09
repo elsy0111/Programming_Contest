@@ -4,21 +4,23 @@ from get_post.get_post import *
 モジュールとして組み込める(Python_Scriptsより下にあったら無理)
 ※__pycache__は消さなくていいかも
 
-1. get_game
+1. get_game()
 get_game()すれば試合情報がわかる
 
-2. get_problem
-これも何も考えずにget_problem()しとけば問題の情報が手に入る
+2. get_problem()
+get_problem()すれば問題の情報が手に入る
+send_answerメソッド内にこの関数を埋め込む関係上
+問題idを返り値とするが、変数に代入する必要はない
 
 3. post_split(n)
 これはnのところに任意の整数を入れれば
 ・取得する分割データ数の情報を送信
 ・分割データの読み込み
-までを1セットで行うやつ
-関数そのものに返り値を持ってるわけじゃなくてwavファイルをPython_scripts/audioの中に
+までを1セットで行う
+関数そのものは返り値を持たず、wavファイルをPython_scripts/audioの中に
 そのまま入れるタイプ
 
-4. send_answer(problem,a_list)
-導き出した答えをサーバーに送ってくれる
-problemにはget_problemで取得した問題ID,a_listには答えとなる読みデータを
-リスト化したやつを入れていただければ○ (例:send_answer("qual-1-1" , ["01","02"]))
+4. send_answer(a_list)
+導き出した答えをサーバーに送る
+a_listには答えとなる読みデータを
+リスト化したやつを入れていただければ○ (例:send_answer(["01","02"]))
