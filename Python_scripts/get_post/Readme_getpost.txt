@@ -20,7 +20,8 @@ send_answerメソッド内にこの関数を埋め込む関係上
 関数そのものは返り値を持たず、wavファイルをPython_scripts/audioの中に
 そのまま入れるタイプ
 
-4. send_answer(p_number,a_list)
+4. send_answer(a_list)
 導き出した答えをサーバーに送る
-p_numberには問題番号を、a_listには答えとなる読みデータを
-リスト化したやつを入れていただければ○ 例:send_answer("qual-1-1",["01","02"])
+a_listには答えとなる読みデータを
+リスト化したやつを入れていただければ○ 例:send_answer([1,2,23,42])
+※a_listはintで入れて一桁の場合は0埋めしない(1を01としない)

@@ -37,9 +37,16 @@ def post_split(n):
             file.write(chunk)
         print(r.status_code)
 
-def send_answer(p_number,a_list):
+def send_answer(a_list):
     #problem=問題番号(get_problemで取得できる),a_list=読みデータ番号のリスト
     send_dic.update({"Content-Type" : "application/json"})
+    p_number = get_problem()
+    for i,name in enumerate(a_list):
+        if a_list[i] < 10:
+            a_list[i] = "0"+str(a_list[i])
+        else :
+            a_list[i] = str(a_list[i])
+
     send_json = {
         "problem_id" :  p_number ,
         "answers" : a_list
