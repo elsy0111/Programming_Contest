@@ -1,6 +1,6 @@
 import numpy as np
 """
-test
+test(未完成)
 n = 3
 learning_list = [1,5,3,6,3,7,3,7,478,3,2,6,4]
 """
